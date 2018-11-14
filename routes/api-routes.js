@@ -4,14 +4,38 @@ module.exports = function (app) {
 
     app.get("/api/posts/", function (req, res) {
 
-        db.Post.findAll({})
+        db.users.findAll({}).then(function (viewUsers) {
 
-            .then(function (dbPost) {
+            res.json(viewUsers);
 
-                res.json(dbPost);
+        }).catch( function (err) {
 
-            });
-            
+            res.send(err);
+
+        });
+
     });
+
+    // app.post("/api/posts/", function (req, res) {
+
+    //     db.users.create({
+
+    //         name: req.body.name,
+    //         email: req.body.email,
+    //         password: req.body.password
+
+    //     }).then( function (viewUsers) {
+
+    //         res.json(viewUsers);
+
+    //         res.json(req.body);
+
+    //     }).catch( function (err) {
+
+    //         res.json(err);
+
+    //     });
+
+    // });
 
 }
