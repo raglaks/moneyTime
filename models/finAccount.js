@@ -1,4 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
+    
     const finAccount = sequelize.define("finaccounts", {
         userid: {
             type: DataTypes.INTEGER,
