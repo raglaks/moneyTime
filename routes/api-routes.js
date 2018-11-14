@@ -2,39 +2,80 @@ const db = require("../models");
 
 module.exports = function (app) {
 
-    app.get("/api/posts/", function (req, res) {
+    //GET to view all registered users
+    app.get("/api/users/", function (req, res) {
 
-        db.users.findAll({}).then(function (viewUsers) {
+        //remember to use the table name and NOT the constructor name here
+        db.users.findAll({}).then(function (data) {
 
-            res.json(viewUsers);
-
-        }).catch( function (err) {
-
-            res.send(err);
+            res.json(data);
 
         });
 
     });
 
-    // app.post("/api/posts/", function (req, res) {
+    //GET to view specific user
+    app.get("/api/users/:id", function (req, res) {
 
-    //     db.users.create({
+        db.users.findAll({
 
-    //         name: req.body.name,
-    //         email: req.body.email,
-    //         password: req.body.password
+            where: {
 
-    //     }).then( function (viewUsers) {
+                id: req.params.id
 
-    //         res.json(viewUsers);
+            }
 
-    //         res.json(req.body);
+        }).then( function (data) {
 
-    //     }).catch( function (err) {
+            res.json(data);
 
-    //         res.json(err);
+        })
 
-    //     });
+    });
+
+    //POST to create new users
+    app.post("/api/users", function (req, res) {
+
+        db.users.create({
+
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password
+
+        }).then( function (data) {
+
+            res.json(data);
+
+        });
+
+    });
+
+    //DELETE user by id
+    app.delete("/api/users/:id", function (req, res) {
+
+        db.users.destroy({
+
+            where: {
+
+                id: req.params.id
+
+            }
+
+        }).then( function (data) {
+
+            res.json(data);
+
+        });
+
+    });
+
+    // app.put("/api/users/", function (req, res) {
+
+    //     db.users.update({
+
+
+
+    //     })
 
     // });
 
