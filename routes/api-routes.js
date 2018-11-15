@@ -69,6 +69,8 @@ module.exports = function (app) {
 
     });
 
+
+    //not sure about PUT functionality for this, leaving it as a comment;
     // app.put("/api/users/", function (req, res) {
 
     //     db.users.update({
