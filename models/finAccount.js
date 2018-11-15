@@ -1,6 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
     
-    const Account = sequelize.define("finaccounts", {
+    const Account = sequelize.define("accounts", {
 
         userid: {
             type: DataTypes.INTEGER,
@@ -28,5 +28,5 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     return Account;
-    
+
 };

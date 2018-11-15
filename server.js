@@ -10,7 +10,9 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-require("./routes/api-routes.js")(app);
+require("./routes/users-api-routes.js")(app);
+require("./routes/expenses-api-routes.js")(app);
+require("./routes/accounts-api-routes.js")(app);
 require("./routes/html-routes.js")(app);
 
 const exphbs = require("express-handlebars");
