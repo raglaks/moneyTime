@@ -14,13 +14,12 @@
 
                 <div class="form-group">
                     <label for="nameSignUp">Name</label>
-                    <input type="name" class="form-control" id="nameSign" 
-                        placeholder="Enter name">
+                    <input type="name" class="form-control" id="nameSign" placeholder="Enter name">
                 </div>
 
                 <div class="form-group">
                     <label for="emailSignUp">Email address</label>
-                    <input type="email" class="form-control" id="emailSign"                        placeholder="Enter email">
+                    <input type="email" class="form-control" id="emailSign" placeholder="Enter email">
                 </div>
 
                 <div class="form-group">
@@ -51,7 +50,7 @@
 
                 <div class="form-group">
                     <label for="emailLogIn">Email address</label>
-                    <input type="email" class="form-control" id="emailLog"                        placeholder="Enter email">
+                    <input type="email" class="form-control" id="emailLog" placeholder="Enter email">
                 </div>
 
                 <div class="form-group">
@@ -89,6 +88,30 @@
             event.preventDefault();
 
             console.log("sign up sub clicked");
+
+            let newName = $("#nameSign").val().trim();
+            let newEmail = $("#emailSign").val().trim();
+            let newPassword = $("#passwordSign").val().trim();
+
+            let newUser = {
+
+                name: newName,
+                email: newEmail,
+                password: newPassword
+
+            }
+
+            $.ajax({
+
+                method: "POST",
+                url: "/api/users",
+                data: newUser
+
+            }).then(function () {
+
+                console.log("Signed up.");
+
+            });
 
         });
 
