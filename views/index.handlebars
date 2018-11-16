@@ -28,7 +28,7 @@
                     <input type="password" class="form-control" id="passwordSign" placeholder="Password">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" id="submitSign">Submit</button>
             </form>
 
         </div>
@@ -59,7 +59,7 @@
                     <input type="password" class="form-control" id="passwordLog" placeholder="Password">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" id="submitLog">Submit</button>
             </form>
 
         </div>
@@ -75,6 +75,22 @@
     $(document).ready(function () {
 
         console.log("homepage loaded");
+
+        $("#submitLog").on("click", function (event) {
+
+            event.preventDefault();
+
+            console.log("log in sub clicked");
+
+        });
+
+        $("#submitSign").on("click", function (event) {
+
+            event.preventDefault();
+
+            console.log("sign up sub clicked");
+
+        });
 
     });
 
