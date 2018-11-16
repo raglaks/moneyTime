@@ -93,25 +93,37 @@
             let newEmail = $("#emailSign").val().trim();
             let newPassword = $("#passwordSign").val().trim();
 
-            let newUser = {
+            if (newName == "" || newEmail == "" || newPassword == "") {
 
-                name: newName,
-                email: newEmail,
-                password: newPassword
+                alert("Please fill all fields.");
+
+            } else {
+
+                let newUser = {
+
+                    name: newName,
+                    email: newEmail,
+                    password: newPassword
+
+                }
+
+                $.ajax({
+
+                    method: "POST",
+                    url: "/api/users",
+                    data: newUser
+
+                }).then(function () {
+
+                    console.log("Signed up.");
+
+                    newName.val("");
+                    newEmail.val("");
+                    newPassword.val("");
+
+                });
 
             }
-
-            $.ajax({
-
-                method: "POST",
-                url: "/api/users",
-                data: newUser
-
-            }).then(function () {
-
-                console.log("Signed up.");
-
-            });
 
         });
 
