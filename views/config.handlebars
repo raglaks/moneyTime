@@ -1,6 +1,46 @@
 
-<div class="col-md-12 col-sm-10" id="accountConfig">
+<div class="offset-md-2 col-md-8 offset-sm-1 col-sm-10" id="accountConfig">
     <h3>Account Configuration</h3>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <p class="card-text">Add a new Credit, debit or wallet account to your profile.</p>
+    <form>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Options</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01">
+                <option selected disabled>Select an account Type</option>
+                <option value="debit">Debit</option>
+                <option value="credit">Credit</option>
+                <option value="wallet">Wallet</option>
+            </select>
+        </div>
+        <div class=""
+        {{!-- const Account = sequelize.define("accounts", {
+
+        userid: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
+        finAccount: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+
+        accountType: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+
+        statementDate: {
+            type: DataTypes.DATE,
+        },
+
+        dueDate: {
+            type: DataTypes.DATE,
+            
+        }
+    }); --}}
+    </form>
 </div>
 
