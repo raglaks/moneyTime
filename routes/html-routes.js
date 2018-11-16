@@ -17,9 +17,15 @@ module.exports = function (app) {
     });
 
     //route for new entry into DB
-    app.get("/new_entry", function (req, res) {
+    app.get("/expense", function (req, res) {
 
-        res.render("new_entry");
+        res.render("expense");
+
+    });
+
+    app.get("/config", function (req, res) {
+
+        res.render("config");
 
     });
 }
