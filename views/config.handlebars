@@ -1,0 +1,73 @@
+
+<div class="offset-md-2 col-md-8 offset-sm-1 col-sm-10" id="accountConfig">
+    <h3>Account Configuration</h3>
+    <p class="card-text">Add a new Credit, debit or wallet account to your profile.</p>
+    <form>
+        {{!-- Fin Account Name --}}
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Account Name</span>
+            </div>
+            <input id="accNmae" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        </div>
+        {{!-- Fin Account Type --}}
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Options</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01">
+                <option selected disabled>Select an account Type</option>
+                <option value="debit">Debit</option>
+                <option value="credit">Credit</option>
+                <option value="wallet">Wallet</option>
+            </select>
+        </div>
+        {{!-- Fin Account Statement Date --}}
+        <div class="input-group mb-3" id="statementDate">
+            {{!-- <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Statement Date</span>
+            </div>
+            <input id="statDate" class="calendar form-control" type="text" placeholder="Select Date.." readonly="readonly"> --}}
+        </div>
+        
+        {{!-- Due Date --}}
+        <div class="input-group mb-3" id="dueDate">
+            {{!-- <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Due Date</span>
+            </div>
+            <input id="dueDate" class="calendar form-control" type="text" placeholder="Select Date.." readonly="readonly"> --}}
+        </div>
+
+        {{!-- submit button --}}
+
+        <button type="button" class="btn btn-success" id="createAcc">Submit</button>
+
+        {{!-- const Account = sequelize.define("accounts", {
+
+        userid: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
+        finAccount: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+
+        accountType: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+
+        statementDate: {
+            type: DataTypes.DATE,
+        },
+
+        dueDate: {
+            type: DataTypes.DATE,
+            
+        }
+    }); --}}
+    </form>
+</div>
+

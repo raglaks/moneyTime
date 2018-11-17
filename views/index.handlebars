@@ -1,0 +1,186 @@
+<div class="col-lg-2"></div>
+
+<div class="col-lg-4 card-deck mx-auto">
+
+    <div class="card">
+
+        <img class="card-img-top padding indexPic" src="/images/kiwis.png" alt="kiwis">
+
+        <div class="card-body">
+
+            <h2 class="card-title text-center">SIGN UP</h2>
+
+            <form class="card-text">
+
+                <div class="form-group">
+                    <label for="nameSignUp">Name</label>
+                    <input type="name" class="form-control" id="nameSign" placeholder="Enter name">
+                </div>
+
+                <div class="form-group">
+                    <label for="emailSignUp">Email address</label>
+                    <input type="email" class="form-control" id="emailSign" placeholder="Enter email">
+                </div>
+
+                <div class="form-group">
+                    <label for="passwordSignUp">Password</label>
+                    <input type="password" class="form-control" id="passwordSign" placeholder="Password">
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="submitSign">Submit</button>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="col-lg-4 card-deck mx-auto">
+
+    <div class="card">
+
+        <img class="card-img-top padding indexPic" src="/images/naranjas.png" alt="naranjas">
+
+        <div class="card-body">
+
+            <h2 class="card-title text-center">LOG IN</h2>
+
+            <form class="card-text">
+
+                <div class="form-group">
+                    <label for="emailLogIn">Email address</label>
+                    <input type="email" class="form-control" id="emailLog" placeholder="Enter email">
+                </div>
+
+                <div class="form-group">
+                    <label for="passwordLogIn">Password</label>
+                    <input type="password" class="form-control" id="passwordLog" placeholder="Password">
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="submitLog">Submit</button>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="col-lg-2"></div>
+
+<script>
+
+    $(document).ready(function () {
+
+        console.log("homepage loaded");
+
+        $("#submitLog").on("click", function (event) {
+
+            event.preventDefault();
+
+            console.log("log in sub clicked");
+
+            let oldEmail = $("#emailLog").val().trim();
+            let oldPass = $("#passwordLog").val().trim();
+
+            if (oldEmail == "" || oldPass == "") {
+
+                alert("Please fill out all fields.");
+
+            } else {
+
+                allUsers();
+
+            }
+
+            function allUsers() {
+
+                $.get("/api/users", function (data) {
+
+                    console.log(data);
+
+                    let check = false;
+
+                    data.forEach(element => {
+
+                        console.log(element);
+                        console.log(check);
+
+                        if (element.email === oldEmail && element.password === oldPass) {
+
+                            check = true;
+
+                        } 
+
+                    });
+
+                    checkExis();
+
+                    function checkExis() {
+
+                        if (check) {
+
+                            console.log("logged in.");
+
+                        } else {
+
+                            alert("Email or password not found. Please retry.");
+
+                        }
+
+                    }
+                   
+                });
+
+            }
+
+        });
+
+        $("#submitSign").on("click", function (event) {
+
+            event.preventDefault();
+
+            console.log("sign up sub clicked");
+
+            let newName = $("#nameSign").val().trim();
+            let newEmail = $("#emailSign").val().trim();
+            let newPassword = $("#passwordSign").val().trim();
+
+            if (newName == "" || newEmail == "" || newPassword == "") {
+
+                alert("Please out fill all fields.");
+
+            } else {
+
+                let newUser = {
+
+                    name: newName,
+                    email: newEmail,
+                    password: newPassword
+
+                }
+
+                $.ajax({
+
+                    method: "POST",
+                    url: "/api/users",
+                    data: newUser
+
+                }).then(function () {
+
+                    console.log("Signed up.");
+
+                    $("#nameSign").val("");
+                    $("#emailSign").val("");
+                    $("#passwordSign").val("");
+
+                });
+
+            }
+
+        });
+
+    });
+
+</script>
