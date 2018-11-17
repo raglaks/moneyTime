@@ -33,10 +33,17 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false
         },
 
-        expAmmount: {
+        expAmount: {
             type: DataTypes.FLOAT(11, 2),
             allowNull: false
+        },
+
+        deletedExpense: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            allowNull: false
         }
+        
     });
 
     return Expense;

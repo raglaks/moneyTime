@@ -167,13 +167,13 @@
                     url: "/api/users",
                     data: newUser
 
-                }).then(function () {
+                }).then(function (result) {
+
+                    let userId = result.id;
 
                     console.log("Signed up.");
 
-                    $("#nameSign").val("");
-                    $("#emailSign").val("");
-                    $("#passwordSign").val("");
+                    window.location.href = `/users/accounts/${userId}`;
 
                 });
 

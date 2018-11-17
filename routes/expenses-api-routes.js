@@ -2,7 +2,7 @@ const db = require("../models");
 
 module.exports = function (app) {
 
-    //GET to view all registered expenses
+    //GET to view all registered expenses--DEV
     app.get("/api/expenses/", function (req, res) {
 
         //remember to use the table name and NOT the constructor name here
@@ -14,30 +14,14 @@ module.exports = function (app) {
 
     });
 
-    //GET to view specific expense
-    app.get("/api/expenses/:id", function (req, res) {
-
-        db.expenses.findAll({
-
-            where: {
-
-                id: req.params.id
-
-            }
-
-        }).then( function (data) {
-
-            res.json(data);
-
-        })
-
-    });
-
     //POST to create new expense
-    app.post("/api/expenses", function (req, res) {
+    app.post("/api/expenses/:id", function (req, res) {
+
+        const userID = req.params.id;
 
         db.expenses.create({
 
+            userid: userID,
             name: req.body.name,
             email: req.body.email,
             password: req.body.password
@@ -50,8 +34,8 @@ module.exports = function (app) {
 
     });
 
-    //DELETE expense by id
-    app.delete("/api/expenses/:id", function (req, res) {
+    //DELETE expense by id--TAREA
+    app.put("/api/expenses/:id", function (req, res) {
 
         db.expenses.destroy({
 
