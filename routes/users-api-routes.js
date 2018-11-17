@@ -2,7 +2,7 @@ const db = require("../models");
 
 module.exports = function (app) {
 
-    //GET to view all registered users
+    //GET to view all registered users--DEV
     app.get("/api/users/", function (req, res) {
 
         //remember to use the table name and NOT the constructor name here
@@ -14,26 +14,7 @@ module.exports = function (app) {
 
     });
 
-    //GET to view specific user
-    app.get("/api/users/:id", function (req, res) {
-
-        db.users.findAll({
-
-            where: {
-
-                id: req.params.id
-
-            }
-
-        }).then( function (data) {
-
-            res.json(data);
-
-        })
-
-    });
-
-    //POST to create new users
+    //POST to create new users--AHUEVO
     app.post("/api/users", function (req, res) {
 
         db.users.create({
@@ -50,7 +31,7 @@ module.exports = function (app) {
 
     });
 
-    //DELETE user by id
+    //DELETE user by id--VV
     app.delete("/api/users/:id", function (req, res) {
 
         db.users.destroy({
@@ -68,17 +49,5 @@ module.exports = function (app) {
         });
 
     });
-
-
-    //not sure about PUT functionality for this, leaving it as a comment;
-    // app.put("/api/users/", function (req, res) {
-
-    //     db.users.update({
-
-
-
-    //     })
-
-    // });
 
 }

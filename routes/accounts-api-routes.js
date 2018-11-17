@@ -2,7 +2,7 @@ const db = require("../models");
 
 module.exports = function (app) {
 
-    //GET to view all registered accounts
+    //GET to view all registered accounts--DEV
     app.get("/api/accounts/", function (req, res) {
 
         //remember to use the table name and NOT the constructor name here
@@ -14,27 +14,8 @@ module.exports = function (app) {
 
     });
 
-    //GET to view specific account
-    app.get("/api/accounts/:id", function (req, res) {
-
-        db.accounts.findAll({
-
-            where: {
-
-                id: req.params.id
-
-            }
-
-        }).then( function (data) {
-
-            res.json(data);
-
-        })
-
-    });
-
-    //POST to create new account
-    app.post("/api/accounts", function (req, res) {
+    //POST to create new account--AHUEVO
+    app.post("/api/accounts/:id", function (req, res) {
 
         db.accounts.create({
 
@@ -50,7 +31,7 @@ module.exports = function (app) {
 
     });
 
-    //DELETE account by id
+    //DELETE account by id-CHANGE TO PUT EDGAR
     app.delete("/api/accounts/:id", function (req, res) {
 
         db.accounts.destroy({
