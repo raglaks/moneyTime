@@ -22,12 +22,12 @@ module.exports = function (app) {
 
             }
 
-        }).then( function (data) {
+        }).then(function (data) {
 
             res.json(data);
 
         });
-        
+
     });
 
     //GET ALL EXPENSES BY USER
@@ -41,7 +41,7 @@ module.exports = function (app) {
 
             }
 
-        }).then( function (data) {
+        }).then(function (data) {
 
             let raw = JSON.stringify(data);
 
@@ -79,7 +79,7 @@ module.exports = function (app) {
 
             }
 
-        }).then( function (data) {
+        }).then(function (data) {
 
             let raw = JSON.stringify(data);
 

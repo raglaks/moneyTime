@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     //console.log("hello World");
 
     //native constructor to get current date and time zone
@@ -26,13 +26,13 @@ $(document).ready(function() {
 
         if (accType == "credit") {
             //target to append the divs
-            
+
             //div creation
             let statementDiv = $('<div class="input-group-prepend">');
             let statementSpan = $('<span class="input-group-text" id="inputGroup-sizing-default">');
             statementSpan.text("Statement Date");
             let statementInput = $('<input id="statDate" class="calendar form-control" type="text" placeholder="Select Date.." readonly="readonly">');
-            
+
             //apending for target 1
             target1.append(statementDiv);
             statementDiv.append(statementSpan);
@@ -81,7 +81,7 @@ $(document).ready(function() {
         console.log(id);
 
         //FALTA LA ROUTE CORRECTA!!!!!!!
-        $.ajax("/api/accounts/"+id, {
+        $.ajax("/api/accounts/" + id, {
             type: "POST",
             data
         }).then(() => {
@@ -207,6 +207,11 @@ $(document).ready(function() {
         let expAmount = $("#expAmount").val().trim();
         let expDate = $("#expDate").val().trim();
 
+        let path = $(location).attr('pathname');
+        let pathArr = path.split("/");
+        let id = pathArr[3];
+        console.log(id);
+
         if (expName == "" || expType == "" || expAmount == "") {
 
             alert("Please fill out fill all fields.");
@@ -214,6 +219,28 @@ $(document).ready(function() {
         } else {
 
             console.log(`\n${expName}\n${expSelect}\n${expType}\n${expAmount}\n${expDate}\n`);
+
+            let newExp = {
+
+                expName: expName,
+                finAccount: expSelect,
+                expType: expType,
+                expDate: expDate,
+                expAmount: expAmount
+
+            }
+
+            $.ajax({
+
+                method: "POST",
+                url: "/api/expenses/" + id,
+                data: newExp
+
+            }).then(function (result) {
+
+                console.log(result.userId);
+
+            });
 
         }
 
