@@ -1,7 +1,6 @@
-$(document).ready(function() {
-    console.log("hello World");
+$(document).ready(function () {
 
-   
+    console.log("hello World");
 
     $("#inputGroupSelect01").change(() => {
         console.log($("#inputGroupSelect01").val());
@@ -15,7 +14,7 @@ $(document).ready(function() {
             let statementSpan = $('<span class="input-group-text" id="inputGroup-sizing-default">');
             statementSpan.text("Statement Date");
             let statementInput = $('<input class="calendar form-control" type="text" placeholder="Select Date.." readonly="readonly">');
-            
+
             //apending for target 1
             target1.append(statementDiv);
             statementDiv.append(statementSpan);
@@ -44,11 +43,11 @@ $(document).ready(function() {
         let statementDate = "";
         let dueDate = "";
 
-        if(accType == "credit") {
+        if (accType == "credit") {
             statementDate = $("#statDate").val();
             dueDate = $("#dueDate").val();
         }
-        
+
         //sended Object
         let data = {
             accName,
@@ -56,7 +55,7 @@ $(document).ready(function() {
             statementDate,
             dueDate
         };
-        
+
         console.log(data);
 
         //FALTA LA ROUTE CORRECTA!!!!!!!
@@ -65,9 +64,115 @@ $(document).ready(function() {
             data
         }).then(() => {
             console.log("created new Financial Account");
-            
+
             //location.reload();
         });
+    });
+
+    $("#submitLog").on("click", function (event) {
+
+        event.preventDefault();
+
+        console.log("log in sub clicked");
+
+        let oldEmail = $("#emailLog").val().trim();
+        let oldPass = $("#passwordLog").val().trim();
+
+        if (oldEmail == "" || oldPass == "") {
+
+            alert("Please fill out all fields.");
+
+        } else {
+
+            allUsers();
+
+        }
+
+        function allUsers() {
+
+            $.get("/api/users", function (data) {
+
+                console.log(data);
+
+                let check = false;
+
+                data.forEach(element => {
+
+                    console.log(element);
+                    console.log(check);
+
+                    if (element.email === oldEmail && element.password === oldPass) {
+
+                        check = true;
+
+                    }
+
+                });
+
+                checkExis();
+
+                function checkExis() {
+
+                    if (check) {
+
+                        console.log("logged in.");
+
+                    } else {
+
+                        alert("Email or password not found. Please retry.");
+
+                    }
+
+                }
+
+            });
+
+        }
+
+    });
+
+    $("#submitSign").on("click", function (event) {
+
+        event.preventDefault();
+
+        console.log("sign up sub clicked");
+
+        let newName = $("#nameSign").val().trim();
+        let newEmail = $("#emailSign").val().trim();
+        let newPassword = $("#passwordSign").val().trim();
+
+        if (newName == "" || newEmail == "" || newPassword == "") {
+
+            alert("Please out fill all fields.");
+
+        } else {
+
+            let newUser = {
+
+                name: newName,
+                email: newEmail,
+                password: newPassword
+
+            }
+
+            $.ajax({
+
+                method: "POST",
+                url: "/api/users",
+                data: newUser
+
+            }).then(function (result) {
+
+                let userId = result.id;
+
+                console.log("Signed up.");
+
+                window.location.href = `/users/accounts/${userId}`;
+
+            });
+
+        }
+
     });
 
 });
