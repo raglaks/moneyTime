@@ -17,11 +17,20 @@ module.exports = function (app) {
     //POST to create new account--AHUEVO
     app.post("/api/accounts/:id", function (req, res) {
 
+        let userid = req.params.id;
+        let finAccount = req.body.accName;
+        let accountType = req.body.accType;
+        let statementDate = JSON.parse(req.body.statementDate) == false ? Date.now() : req.body.statementDate;
+        let dueDate = JSON.parse(req.body.dueDate) == false ? Date.now() : req.body.dueDate;
+        console.log(userid, " ", finAccount, " ", accountType, " ", statementDate, " ",dueDate);
+
         db.accounts.create({
 
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password
+            userid: userid,
+            finAccount: finAccount, 
+            accountType: accountType,
+            statementDate: statementDate,
+            dueDate: dueDate
 
         }).then( function (data) {
 
