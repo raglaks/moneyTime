@@ -165,7 +165,7 @@ $(document).ready(function() {
 
         if (newName == "" || newEmail == "" || newPassword == "") {
 
-            alert("Please out fill all fields.");
+            alert("Please fill out fill all fields.");
 
         } else {
 
@@ -207,7 +207,15 @@ $(document).ready(function() {
         let expAmount = $("#expAmount").val().trim();
         let expDate = $("#expDate").val().trim();
 
-        console.log(`\n${expName}\n${expSelect}\n${expType}\n${expAmount}\n${expDate}`);
+        if (expName == "" || expType == "" || expAmount == "") {
+
+            alert("Please fill out fill all fields.");
+
+        } else {
+
+            console.log(`\n${expName}\n${expSelect}\n${expType}\n${expAmount}\n${expDate}\n`);
+
+        }
 
     });
 
