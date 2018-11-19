@@ -2,6 +2,7 @@ $(document).ready(function () {
 
     console.log("hello World");
 
+    //native constructor to get current date and time zone
     Date.prototype.toDateInputValue = (function () {
 
         let local = new Date(this);
@@ -12,6 +13,7 @@ $(document).ready(function () {
 
     });
 
+    //correct date is then assigned to the corresponding field
     $("#expDate").val(new Date().toDateInputValue());
 
     $("#inputGroupSelect01").change(() => {
@@ -27,7 +29,7 @@ $(document).ready(function () {
             statementSpan.text("Statement Date");
             let statementInput = $('<input class="calendar form-control" type="text" placeholder="Select Date.." readonly="readonly">');
 
-            //apending for target 1
+            //appending for target 1
             target1.append(statementDiv);
             statementDiv.append(statementSpan);
             target1.append(statementInput);
@@ -60,7 +62,7 @@ $(document).ready(function () {
             dueDate = $("#dueDate").val();
         }
 
-        //sended Object
+        //sent object
         let data = {
             accName,
             accType,
@@ -184,6 +186,20 @@ $(document).ready(function () {
             });
 
         }
+
+    });
+
+    $("#submitExp").on("click", function (event) {
+
+        event.preventDefault();
+
+        let expName = $("#expName").val().trim();
+        let expSelect = $("#expSelect").val().trim();
+        let expType = $("#expType").val().trim();
+        let expAmount = $("#expAmount").val().trim();
+        let expDate = $("#expDate").val().trim();
+
+        console.log(`\n${expName}\n${expSelect}\n${expType}\n${expAmount}\n${expDate}`);
 
     });
 
