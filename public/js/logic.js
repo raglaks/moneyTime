@@ -75,7 +75,7 @@ $(document).ready(function() {
         }).then(() => {
             console.log("created new Financial Account");
             
-            //location.reload();
+            location.reload();
         });
     });
 

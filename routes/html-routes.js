@@ -83,7 +83,7 @@ module.exports = function (app) {
 
             let raw = JSON.stringify(data);
 
-            console.log(raw);
+            //console.log(raw);
 
             let parse = {
 
