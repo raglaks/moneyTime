@@ -2,6 +2,18 @@ $(document).ready(function () {
 
     console.log("hello World");
 
+    Date.prototype.toDateInputValue = (function () {
+
+        var local = new Date(this);
+
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+
+        return local.toJSON().slice(0, 10);
+
+    });
+
+    $("#expDate").val(new Date().toDateInputValue());
+
     $("#inputGroupSelect01").change(() => {
         console.log($("#inputGroupSelect01").val());
         let accType = $("#inputGroupSelect01").val();
