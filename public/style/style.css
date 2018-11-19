@@ -14,10 +14,12 @@ body {
 }
 
 .indexPic {
-
     height: 100px;
     width: auto;
+}
 
+#createAcc {
+    margin-bottom: 5px;
 }
 
 
