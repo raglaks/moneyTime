@@ -167,39 +167,74 @@ $(document).ready(function () {
 
         event.preventDefault();
 
-        console.log("sign up sub clicked");
-
         let newName = $("#nameSign").val().trim();
-        let newEmail = $("#emailSign").val().trim();
+
+        let newEmail = {
+
+            check: false,
+            val: $("#emailSign").val().trim()
+
+        }
+
         let newPassword = $("#passwordSign").val().trim();
 
-        if (newName == "" || newEmail == "" || newPassword == "") {
+        if (newName == "" || newEmail.val == "" || newPassword == "") {
 
             alert("Please fill out fill all fields.");
 
         } else {
 
-            let newUser = {
+            allUsers();
 
-                name: newName,
-                email: newEmail,
-                password: newPassword
+        }
 
-            }
+        function allUsers() {
 
-            $.ajax({
+            $.get("/api/users", function (data) {
 
-                method: "POST",
-                url: "/api/users",
-                data: newUser
+                data.forEach(element => {
 
-            }).then(function (result) {
+                    if (element.email === newEmail.val) {
 
-                let userId = result.id;
+                        return newEmail.check = true;
 
-                console.log("Signed up.");
+                    }
 
-                window.location.href = `/users/accounts/${userId}`;
+                });
+
+                if (newEmail.check === true) {
+
+                    alert("Email already exists, please log in.");
+
+                } else {
+
+                    console.log("all good");
+
+                    let newUser = {
+
+                        name: newName,
+                        email: newEmail.val,
+                        password: newPassword
+
+                    }
+
+                    $.ajax({
+
+                        method: "POST",
+                        url: "/api/users",
+                        data: newUser
+
+                    }).then(function (result) {
+
+                        let userId = result.id;
+
+                        console.log("Signed up.");
+
+                        window.location.href = `/users/accounts/${userId}`;
+
+                    });
+
+                }
 
             });
 
