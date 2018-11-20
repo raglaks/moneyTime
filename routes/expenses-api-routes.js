@@ -14,6 +14,27 @@ module.exports = function (app) {
 
     });
 
+    app.get("/api/expenses/:id", function (req, res) {
+
+        let userID = req.params.id;
+
+        //remember to use the table name and NOT the constructor name here
+        db.expenses.findAll({
+
+            where: {
+
+                userid: userID
+
+            }
+
+        }).then(function (data) {
+
+            res.json(data);
+
+        });
+
+    });
+
     //POST to create new expense
     app.post("/api/expenses/:id", function (req, res) {
 
