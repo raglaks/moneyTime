@@ -249,7 +249,7 @@ $(document).ready(function () {
 
             }).then(function (result) {
 
-                console.log(result.userId);
+                console.log("expense added.")
 
             });
 
