@@ -55,4 +55,27 @@ module.exports = function (app) {
 
     });
 
+    app.put("/api/expenses/update/:id", function (req, res) {
+
+        console.log(req.body.data)
+        // db.expenses.update({
+
+        //     expName: req.body.,
+        //     finAccount:,
+        //     expType:,
+        //     expDate:,
+        //     expAmount
+
+        // },{
+        //     where:{
+        //         id:req.body.id
+        //     }
+        // }).then(function (data) {
+
+        //     res.json(data);
+
+        // });
+
+    });
+
 }
