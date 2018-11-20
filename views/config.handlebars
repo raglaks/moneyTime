@@ -39,35 +39,35 @@
         </div>
 
         {{!-- submit button --}}
-
         <button type="button" class="btn btn-success" id="createAcc">Submit</button>
-
-        {{!-- const Account = sequelize.define("accounts", {
-
-        userid: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-
-        finAccount: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-
-        accountType: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-
-        statementDate: {
-            type: DataTypes.DATE,
-        },
-
-        dueDate: {
-            type: DataTypes.DATE,
-            
-        }
-    }); --}}
     </form>
+</div>
+
+
+<div class="offset-md-2 col-md-8 offset-sm-1 col-sm-10" id="accounts">
+    <table style="width:100%">
+    <tr>
+        <th>Account</th>
+        <th>Type</th>
+        <th>Statement Date</th>
+        <th>Due Date</th>
+        <th>Delete</th>
+    </tr>
+
+    {{#each result}}
+    <tr>
+        <td>{{finAccount}}</td>
+        <td>{{accountType}}</td>
+        <td>{{statementDate}}</td>
+        <td>{{dueDate}}</td>
+        <td>
+            <svg id="i-close" data-id={{id}} viewBox="0 0 32 32" width="10" height="10" fill="none" stroke="currentcolor" stroke-linecap="round"
+            stroke-linejoin="round" stroke-width="2">
+                <path d="M2 30 L30 2 M30 30 L2 2" />
+            </svg>
+        </td>
+    </tr>
+    {{/each}}
+    </table>
 </div>
 

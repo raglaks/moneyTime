@@ -86,10 +86,21 @@ $(document).ready(function () {
             data
         }).then(() => {
             console.log("created new Financial Account");
-
-            //location.reload();
+            
+            location.reload();
         });
     });
+
+    $("#i-close").click((ev)=>{
+        //console.log(ev.currentTarget.dataset.id);
+        let id = ev.currentTarget.dataset.id;
+        $.ajax("/api/accounts/"+id, {
+            type: "DELETE"
+        }).then(()=> {
+            location.reload();
+        });
+    });
+   
 
     $("#submitLog").on("click", function (event) {
 
