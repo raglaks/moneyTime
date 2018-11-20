@@ -1,4 +1,5 @@
 const db = require("../models");
+const bcrypt = require("bcryptjs");
 
 module.exports = function (app) {
 
@@ -14,18 +15,71 @@ module.exports = function (app) {
 
     });
 
+    //password check
+    app.get("/passCheck/", function (req, res) {
+
+        db.users.findAll({
+
+            where: {
+
+                email: req.body.email
+
+            }
+
+        }).then(function (data) {
+
+            if (data) {
+
+                bcrypt.compare(req.body.password, data.password, function (err, passRes) {
+
+                    if (err) throw err;
+
+                    if (passRes === true) {
+
+                        console.log("OK");
+
+                    } else {
+
+                        console.log("wrong password");
+
+                    }
+
+                });
+
+            } else {
+
+                console.log("please create an account or check your login details");
+
+            }
+
+        });
+
+    });
+
     //POST to create new users--AHUEVO
     app.post("/api/users", function (req, res) {
 
-        db.users.create({
+        bcrypt.hash(req.body.password, 10, function (err, hash) {
 
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password
+            if (err) {
 
-        }).then( function (data) {
+                throw err;
 
-            res.json(data);
+            } else {
+
+                db.users.create({
+
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: hash
+
+                }).then(function (data) {
+
+                    res.json(data);
+
+                });
+
+            }
 
         });
 
@@ -42,7 +96,7 @@ module.exports = function (app) {
 
             }
 
-        }).then( function (data) {
+        }).then(function (data) {
 
             res.json(data);
 

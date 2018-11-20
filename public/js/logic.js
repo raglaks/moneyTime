@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    //console.log("hello World");
 
     //native constructor to get current date and time zone
     Date.prototype.toDateInputValue = (function () {
@@ -86,75 +85,93 @@ $(document).ready(function () {
             data
         }).then(() => {
             console.log("created new Financial Account");
-            
+
             location.reload();
         });
     });
 
-    $("#i-close").click((ev)=>{
+    $("#i-close").click((ev) => {
         //console.log(ev.currentTarget.dataset.id);
         let id = ev.currentTarget.dataset.id;
-        $.ajax("/api/accounts/"+id, {
+        $.ajax("/api/accounts/" + id, {
             type: "DELETE"
-        }).then(()=> {
+        }).then(() => {
             location.reload();
         });
     });
-   
+
 
     $("#submitLog").on("click", function (event) {
 
         event.preventDefault();
 
-        console.log("log in sub clicked");
+        //create objects for both email and password values with default false checks
+        let oldEmail = {
 
-        let oldEmail = $("#emailLog").val().trim();
-        let oldPass = $("#passwordLog").val().trim();
+            check: false,
+            val: $("#emailLog").val().trim()
 
-        if (oldEmail == "" || oldPass == "") {
+        };
+
+        let oldPass = {
+
+            check: false,
+            val: $("#passwordLog").val().trim()
+
+        };
+
+        //if statement to check that both fields are not empty
+        if (oldEmail.val == "" || oldPass.val == "") {
 
             alert("Please fill out all fields.");
 
         } else {
 
+            //if not then db check function for matching values is called
             allUsers();
 
         }
 
         function allUsers() {
 
+            //get method to check in database for matching values
             $.get("/api/users", function (data) {
-
-                console.log(data);
-
-                let check = false;
 
                 data.forEach(element => {
 
-                    console.log(element);
-                    console.log(check);
+                    //if values are found, then update our object check values to true
+                    if (element.email === oldEmail.val && element.password === oldPass.val) {
 
-                    if (element.email === oldEmail && element.password === oldPass) {
+                        oldEmail.check = true;
 
-                        check = true;
+                        oldPass.check = true;
 
-                    }
+                        passCheck();
+
+                    } 
 
                 });
 
-                checkExis();
+                if (oldEmail.check === false && oldPass.check === false) {
 
-                function checkExis() {
+                    alert("Account not found. Please create an account or check login details.");
 
-                    if (check) {
+                } 
 
-                        console.log("logged in.");
+                function passCheck() {
 
-                    } else {
+                    $.ajax({
 
-                        alert("Email or password not found. Please retry.");
+                        method: "GET",
+                        url: "/passCheck"
+                        
+                    }).then(function (result) {
 
-                    }
+                        console.log("correct email and password.");
+
+                        console.log(result);
+
+                    });
 
                 }
 
@@ -168,39 +185,74 @@ $(document).ready(function () {
 
         event.preventDefault();
 
-        console.log("sign up sub clicked");
-
         let newName = $("#nameSign").val().trim();
-        let newEmail = $("#emailSign").val().trim();
+
+        let newEmail = {
+
+            check: false,
+            val: $("#emailSign").val().trim()
+
+        }
+
         let newPassword = $("#passwordSign").val().trim();
 
-        if (newName == "" || newEmail == "" || newPassword == "") {
+        if (newName == "" || newEmail.val == "" || newPassword == "") {
 
             alert("Please fill out fill all fields.");
 
         } else {
 
-            let newUser = {
+            allUsers();
 
-                name: newName,
-                email: newEmail,
-                password: newPassword
+        }
 
-            }
+        function allUsers() {
 
-            $.ajax({
+            $.get("/api/users", function (data) {
 
-                method: "POST",
-                url: "/api/users",
-                data: newUser
+                data.forEach(element => {
 
-            }).then(function (result) {
+                    if (element.email === newEmail.val) {
 
-                let userId = result.id;
+                        return newEmail.check = true;
 
-                console.log("Signed up.");
+                    }
 
-                window.location.href = `/users/accounts/${userId}`;
+                });
+
+                if (newEmail.check === true) {
+
+                    alert("Email already exists, please log in.");
+
+                } else {
+
+                    console.log("all good");
+
+                    let newUser = {
+
+                        name: newName,
+                        email: newEmail.val,
+                        password: newPassword
+
+                    }
+
+                    $.ajax({
+
+                        method: "POST",
+                        url: "/api/users",
+                        data: newUser
+
+                    }).then(function (result) {
+
+                        let userId = result.id;
+
+                        console.log("Signed up.");
+
+                        window.location.href = `/users/accounts/${userId}`;
+
+                    });
+
+                }
 
             });
 
@@ -249,7 +301,7 @@ $(document).ready(function () {
 
             }).then(function (result) {
 
-                console.log(result.userId);
+                console.log("expense added.");
 
             });
 
