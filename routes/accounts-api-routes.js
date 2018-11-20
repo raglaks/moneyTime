@@ -1,4 +1,6 @@
 const db = require("../models");
+const moment = require('moment');
+
 
 module.exports = function (app) {
 
@@ -20,8 +22,8 @@ module.exports = function (app) {
         let userid = req.params.id;
         let finAccount = req.body.accName;
         let accountType = req.body.accType;
-        let statementDate = JSON.parse(req.body.statementDate) == false ? Date.now() : req.body.statementDate;
-        let dueDate = JSON.parse(req.body.dueDate) == false ? Date.now() : req.body.dueDate;
+        let statementDate = req.body.statementDate == "false" ? Date.now() : moment(req.body.statementDate,"YYYY-MM-DD");
+        let dueDate = req.body.dueDate == "false" ? Date.now() : moment(req.body.dueDate,"YYYY-MM-DD");
         console.log(userid, " ", finAccount, " ", accountType, " ", statementDate, " ",dueDate);
 
         db.accounts.create({
