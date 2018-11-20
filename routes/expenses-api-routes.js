@@ -23,7 +23,7 @@ module.exports = function (app) {
 
             where: {
 
-                userid: id
+                userid: userID
 
             }
 
