@@ -105,55 +105,73 @@ $(document).ready(function () {
 
         event.preventDefault();
 
-        console.log("log in sub clicked");
+        //create objects for both email and password values with default false checks
+        let oldEmail = {
 
-        let oldEmail = $("#emailLog").val().trim();
-        let oldPass = $("#passwordLog").val().trim();
+            check: false,
+            val: $("#emailLog").val().trim()
 
-        if (oldEmail == "" || oldPass == "") {
+        };
+
+        let oldPass = {
+
+            check: false,
+            val: $("#passwordLog").val().trim()
+
+        };
+
+        //if statement to check that both fields are not empty
+        if (oldEmail.val == "" || oldPass.val == "") {
 
             alert("Please fill out all fields.");
 
         } else {
 
+            //if not then db check function for matching values is called
             allUsers();
 
         }
 
         function allUsers() {
 
+            //get method to check in database for matching values
             $.get("/api/users", function (data) {
-
-                console.log(data);
-
-                let check = false;
 
                 data.forEach(element => {
 
-                    console.log(element);
-                    console.log(check);
+                    //if values are found, then update our object check values to true
+                    if (element.email === oldEmail.val && element.password === oldPass.val) {
 
-                    if (element.email === oldEmail && element.password === oldPass) {
+                        oldEmail.check = true;
 
-                        check = true;
+                        oldPass.check = true;
 
-                    }
+                        passCheck();
+
+                    } 
 
                 });
 
-                checkExis();
+                if (oldEmail.check === false && oldPass.check === false) {
 
-                function checkExis() {
+                    alert("Account not found. Please create an account or check login details.");
 
-                    if (check) {
+                } 
 
-                        console.log("logged in.");
+                function passCheck() {
 
-                    } else {
+                    $.ajax({
 
-                        alert("Email or password not found. Please retry.");
+                        method: "GET",
+                        url: "/passCheck"
+                        
+                    }).then(function (result) {
 
-                    }
+                        console.log("correct email and password.");
+
+                        console.log(result);
+
+                    });
 
                 }
 
@@ -283,7 +301,7 @@ $(document).ready(function () {
 
             }).then(function (result) {
 
-                console.log("expense added.")
+                console.log("expense added.");
 
             });
 

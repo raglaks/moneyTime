@@ -15,6 +15,47 @@ module.exports = function (app) {
 
     });
 
+    //password check
+    app.get("/passCheck/", function (req, res) {
+
+        db.users.findAll({
+
+            where: {
+
+                email: req.body.email
+
+            }
+
+        }).then(function (data) {
+
+            if (data) {
+
+                bcrypt.compare(req.body.password, data.password, function (err, passRes) {
+
+                    if (err) throw err;
+
+                    if (passRes === true) {
+
+                        console.log("OK");
+
+                    } else {
+
+                        console.log("wrong password");
+
+                    }
+
+                });
+
+            } else {
+
+                console.log("please create an account or check your login details");
+
+            }
+
+        });
+
+    });
+
     //POST to create new users--AHUEVO
     app.post("/api/users", function (req, res) {
 
