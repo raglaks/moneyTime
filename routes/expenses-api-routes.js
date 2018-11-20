@@ -17,15 +17,17 @@ module.exports = function (app) {
     //POST to create new expense
     app.post("/api/expenses/:id", function (req, res) {
 
-        const userID = req.params.id;
+        let userID = req.params.id;
 
         db.expenses.create({
 
             userid: userID,
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password
-
+            expName: req.body.expName,
+            finAccount: req.body.finAccount,
+            expType: req.body.expType,
+            expDate: req.body.expDate,
+            expAmount: req.body.expAmount
+            
         }).then( function (data) {
 
             res.json(data);
