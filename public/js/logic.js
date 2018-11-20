@@ -79,4 +79,15 @@ $(document).ready(function() {
         });
     });
 
+    $("#i-close").click((ev)=>{
+        //console.log(ev.currentTarget.dataset.id);
+        let id = ev.currentTarget.dataset.id;
+        $.ajax("/api/accounts/"+id, {
+            type: "DELETE"
+        }).then(()=> {
+            location.reload();
+        });
+        
+    });
+
 });
