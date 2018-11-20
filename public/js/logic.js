@@ -1,7 +1,4 @@
-const bcrypt = require("bcryptjs");
-
 $(document).ready(function () {
-    //console.log("hello World");
 
     //native constructor to get current date and time zone
     Date.prototype.toDateInputValue = (function () {
@@ -88,21 +85,21 @@ $(document).ready(function () {
             data
         }).then(() => {
             console.log("created new Financial Account");
-            
+
             location.reload();
         });
     });
 
-    $("#i-close").click((ev)=>{
+    $("#i-close").click((ev) => {
         //console.log(ev.currentTarget.dataset.id);
         let id = ev.currentTarget.dataset.id;
-        $.ajax("/api/accounts/"+id, {
+        $.ajax("/api/accounts/" + id, {
             type: "DELETE"
-        }).then(()=> {
+        }).then(() => {
             location.reload();
         });
     });
-   
+
 
     $("#submitLog").on("click", function (event) {
 
