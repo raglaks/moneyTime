@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs");
+
 $(document).ready(function () {
     //console.log("hello World");
 
