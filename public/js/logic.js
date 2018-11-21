@@ -302,6 +302,7 @@ $(document).ready(function () {
             }).then(function (result) {
 
                 console.log("expense added.");
+                location.reload();
 
             });
 
