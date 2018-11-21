@@ -56,6 +56,24 @@ module.exports = function (app) {
 
     });
 
+    app.post("/api/check/", function (req, res) {
+
+        db.users.findAll({
+
+            where: {
+
+                email: req.body.val
+
+            }
+
+        }).then(function (data) {
+
+            res.json(data);
+
+        });
+
+    });
+
     //POST to create new users--AHUEVO
     app.post("/api/users", function (req, res) {
 

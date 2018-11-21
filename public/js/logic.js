@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     //native constructor to get current date and time zone
     Date.prototype.toDateInputValue = (function () {
 
@@ -102,7 +101,6 @@ $(document).ready(function () {
 
 
     $("#submitLog").on("click", function (event) {
-
         event.preventDefault();
 
         //create objects for both email and password values with default false checks
@@ -126,54 +124,34 @@ $(document).ready(function () {
             alert("Please fill out all fields.");
 
         } else {
-
             //if not then db check function for matching values is called
-            allUsers();
+            checkUsers();
 
         }
 
-        function allUsers() {
+        function checkUsers() {
 
-            //get method to check in database for matching values
-            $.get("/api/users", function (data) {
+            // if (oldEmail.check === false && oldPass.check === false) {
 
-                data.forEach(element => {
+            //     alert("Account not found. Please create an account or check login details.");
 
-                    //if values are found, then update our object check values to true
-                    if (element.email === oldEmail.val && element.password === oldPass.val) {
+            // }
 
-                        oldEmail.check = true;
+            $.ajax({
 
-                        oldPass.check = true;
+                method: "POST",
+                url: "/api/check/",
+                data: oldEmail
 
-                        passCheck();
+            }).then(function (data) {
 
-                    } 
+                console.log(oldEmail);
+                //var RespEmail = result[0].email
+                //var RespPswd = result[0].password
 
-                });
-
-                if (oldEmail.check === false && oldPass.check === false) {
-
-                    alert("Account not found. Please create an account or check login details.");
-
-                } 
-
-                function passCheck() {
-
-                    $.ajax({
-
-                        method: "GET",
-                        url: "/passCheck"
-                        
-                    }).then(function (result) {
-
-                        console.log("correct email and password.");
-
-                        console.log(result);
-
-                    });
-
-                }
+                console.log(data);
+                //console.log(RespEmail)
+                //console.log(RespPswd)
 
             });
 
@@ -300,6 +278,8 @@ $(document).ready(function () {
                 data: newExp
 
             }).then(function (result) {
+
+                console.log(result);
 
                 console.log("expense added.");
 
