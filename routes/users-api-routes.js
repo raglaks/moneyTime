@@ -15,40 +15,46 @@ module.exports = function (app) {
 
     });
 
-    //password check
-    app.get("/passCheck/", function (req, res) {
+    //route for sign up check and post
+    app.post("/signup/check/", function (req, res) {
 
         db.users.findAll({
 
             where: {
 
-                email: req.body.email
+                email: req.body.newEmail
 
             }
 
         }).then(function (data) {
 
-            if (data) {
+            if (data.length === 0) {
 
-                bcrypt.compare(req.body.password, data.password, function (err, passRes) {
+                let pass = req.body.newPass;
+
+                bcrypt.hash(pass, 10, function (err, hash) {
 
                     if (err) throw err;
 
-                    if (passRes === true) {
+                    db.users.create({
 
-                        console.log("OK");
+                        name: req.body.newName,
+                        email: req.body.newEmail,
+                        password: hash
 
-                    } else {
+                    }).then(function (data) {
 
-                        console.log("wrong password");
+                        let userId = data.id;
 
-                    }
+                        res.json(userId);
 
-                });
+                    });
+
+                })
 
             } else {
 
-                console.log("please create an account or check your login details");
+                res.json("USER ALREADY EXISTS. LOG IN INSTEAD.");
 
             }
 
@@ -56,26 +62,42 @@ module.exports = function (app) {
 
     });
 
-    //POST to create new users--AHUEVO
-    app.post("/api/users", function (req, res) {
+    //route to check login info
+    app.post("/login/check/", function (req, res) {
 
-        bcrypt.hash(req.body.password, 10, function (err, hash) {
+        db.users.findAll({
 
-            if (err) {
+            where: {
 
-                throw err;
+                email: req.body.oldEmail
+
+            }
+
+        }).then(function (data) {
+
+            if (data.length === 0) {
+
+                res.json("USER NOT FOUND");
 
             } else {
 
-                db.users.create({
+                let oldPass = req.body.oldPass;
 
-                    name: req.body.name,
-                    email: req.body.email,
-                    password: hash
+                let hash = data[0].password;
 
-                }).then(function (data) {
+                bcrypt.compare(oldPass, hash, function (err, result) {
 
-                    res.json(data);
+                    if (err) throw err;
+
+                    if (result) {
+
+                        res.json(data[0].id);
+
+                    } else {
+
+                        res.json("WRONG PASSWORD");
+
+                    }
 
                 });
 

@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     //native constructor to get current date and time zone
     Date.prototype.toDateInputValue = (function () {
 
@@ -105,73 +104,51 @@ $(document).ready(function () {
 
         event.preventDefault();
 
-        //create objects for both email and password values with default false checks
-        let oldEmail = {
+        let checkObj = {
 
-            check: false,
-            val: $("#emailLog").val().trim()
+            oldEmail: $("#emailLog").val().trim(),
 
-        };
+            oldPass: $("#passwordLog").val().trim()
 
-        let oldPass = {
-
-            check: false,
-            val: $("#passwordLog").val().trim()
-
-        };
+        }
 
         //if statement to check that both fields are not empty
-        if (oldEmail.val == "" || oldPass.val == "") {
+        if (checkObj.oldEmail == "" || checkObj.oldPass == "") {
 
             alert("Please fill out all fields.");
 
         } else {
 
             //if not then db check function for matching values is called
-            allUsers();
+            checkEmail();
 
         }
 
-        function allUsers() {
+        function checkEmail() {
 
-            //get method to check in database for matching values
-            $.get("/api/users", function (data) {
+            $.ajax({
 
-                data.forEach(element => {
+                method: "POST",
+                url: "/login/check/",
+                data: checkObj
 
-                    //if values are found, then update our object check values to true
-                    if (element.email === oldEmail.val && element.password === oldPass.val) {
+            }).then(function (data) {
+                
+                console.log(data);
 
-                        oldEmail.check = true;
+                if (data === "USER NOT FOUND") {
 
-                        oldPass.check = true;
+                    alert("User not found. Please create an account.");
 
-                        passCheck();
+                } else if (data === "WRONG PASSWORD") {
 
-                    } 
+                    alert("Please check your password.");
 
-                });
+                } else {
 
-                if (oldEmail.check === false && oldPass.check === false) {
+                    console.log(data);
 
-                    alert("Account not found. Please create an account or check login details.");
-
-                } 
-
-                function passCheck() {
-
-                    $.ajax({
-
-                        method: "GET",
-                        url: "/passCheck"
-                        
-                    }).then(function (result) {
-
-                        console.log("correct email and password.");
-
-                        console.log(result);
-
-                    });
+                    window.location.href = `/users/accounts/${data}`;
 
                 }
 
@@ -185,72 +162,43 @@ $(document).ready(function () {
 
         event.preventDefault();
 
-        let newName = $("#nameSign").val().trim();
+        let checkObj = {
 
-        let newEmail = {
+            newName: $("#nameSign").val().trim(),
 
-            check: false,
-            val: $("#emailSign").val().trim()
+            newEmail: $("#emailSign").val().trim(),
+
+            newPass: $("#passwordSign").val().trim()
 
         }
 
-        let newPassword = $("#passwordSign").val().trim();
-
-        if (newName == "" || newEmail.val == "" || newPassword == "") {
+        if (checkObj.newName == "" || checkObj.newEmail == "" || checkObj.newPass == "") {
 
             alert("Please fill out fill all fields.");
 
         } else {
 
-            allUsers();
+            checkAll();
 
         }
 
-        function allUsers() {
+        function checkAll() {
 
-            $.get("/api/users", function (data) {
+            $.ajax({
 
-                data.forEach(element => {
+                method: "POST",
+                url: "/signup/check/",
+                data: checkObj
 
-                    if (element.email === newEmail.val) {
+            }).then(function (data) {
 
-                        return newEmail.check = true;
+                if (data === "USER ALREADY EXISTS. LOG IN INSTEAD.") {
 
-                    }
-
-                });
-
-                if (newEmail.check === true) {
-
-                    alert("Email already exists, please log in.");
+                    alert("User already exists. Log in instead.");
 
                 } else {
 
-                    console.log("all good");
-
-                    let newUser = {
-
-                        name: newName,
-                        email: newEmail.val,
-                        password: newPassword
-
-                    }
-
-                    $.ajax({
-
-                        method: "POST",
-                        url: "/api/users",
-                        data: newUser
-
-                    }).then(function (result) {
-
-                        let userId = result.id;
-
-                        console.log("Signed up.");
-
-                        window.location.href = `/users/accounts/${userId}`;
-
-                    });
+                    window.location.href = `/users/accounts/${data}`;
 
                 }
 
@@ -281,8 +229,6 @@ $(document).ready(function () {
 
         } else {
 
-            console.log(`\n${expName}\n${expSelect}\n${expType}\n${expAmount}\n${expDate}\n`);
-
             let newExp = {
 
                 expName: expName,
@@ -300,9 +246,12 @@ $(document).ready(function () {
                 data: newExp
 
             }).then(function (result) {
-
+                console.log(result);
                 console.log("expense added.");
                 location.reload();
+                
+ 
+                
 
             });
 
