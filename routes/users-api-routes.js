@@ -78,11 +78,11 @@ module.exports = function (app) {
 
                 let hash = data[0].password;
 
-                bcrypt.compare(oldPass, hash, function (err, res) {
+                bcrypt.compare(oldPass, hash, function (err, result) {
 
                     if (err) throw err;
 
-                    if (res) {
+                    if (result) {
 
                         console.log("correct password");
 
