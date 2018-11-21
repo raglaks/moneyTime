@@ -84,13 +84,9 @@ module.exports = function (app) {
 
                     if (result) {
 
-                        console.log("correct password");
-
-                        res.json("ALL GOOD");
+                        res.json(data[0].id);
 
                     } else {
-
-                        console.log("wrong password");
 
                         res.json("WRONG PASSWORD");
 

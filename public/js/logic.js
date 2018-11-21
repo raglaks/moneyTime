@@ -135,7 +135,24 @@ $(document).ready(function () {
             }).then(function (data) {
                 
                 console.log(data);
-                
+
+                if (data === "USER NOT FOUND") {
+
+                    alert("User not found. Please create an account.");
+
+                } else if (data === "WRONG PASSWORD") {
+
+                    alert("Please check your password.");
+
+                } else {
+
+                    console.log(data);
+
+                    window.location.href = `/users/accounts/${data}`;
+
+                }
+
+
             });
 
         }
