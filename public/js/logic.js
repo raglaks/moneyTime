@@ -120,11 +120,11 @@ $(document).ready(function () {
         } else {
 
             //if not then db check function for matching values is called
-            checkUsers();
+            checkEmail();
 
         }
 
-        function checkUsers() {
+        function checkEmail() {
 
             $.ajax({
 
@@ -133,21 +133,29 @@ $(document).ready(function () {
                 data: checkObj
 
             }).then(function (data) {
-
-                console.log(data.length);
                 
-                if (data.length = 0) {
+                if (data.length === 0) {
 
                     alert("USER NOT FOUND");
 
                 } else {
 
-                    console.log(data);
-                    console.log("users exists, password func: ");
+                    // console.log(data[0].email);
+                    console.log("users exists");
+
+                    // let hashed = data[0].password;
+
+                    // checkPass(hashed);
 
                 }
 
             });
+
+        }
+
+        function checkPass(hashed) {
+
+            // console.log(hashed);
 
         }
 

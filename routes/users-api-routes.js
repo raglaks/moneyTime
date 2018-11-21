@@ -70,6 +70,25 @@ module.exports = function (app) {
 
             res.json(data);
 
+            let oldPass = req.body.oldPass;
+
+            let hash = data[0].password;
+
+            bcrypt.compare(oldPass, hash, function(err, res) {
+                
+                if (err) throw err;
+
+                if (res) {
+
+                    console.log("correct password");
+
+                } else {
+
+                    console.log("wrong password");
+
+                }
+
+            });
         });
 
     });
