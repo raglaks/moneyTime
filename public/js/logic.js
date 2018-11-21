@@ -129,7 +129,7 @@ $(document).ready(function () {
             $.ajax({
 
                 method: "POST",
-                url: "/api/check/",
+                url: "/login/check/",
                 data: checkObj
 
             }).then(function (data) {
@@ -152,7 +152,6 @@ $(document).ready(function () {
 
                 }
 
-
             });
 
         }
@@ -163,72 +162,43 @@ $(document).ready(function () {
 
         event.preventDefault();
 
-        let newName = $("#nameSign").val().trim();
+        let checkObj = {
 
-        let newEmail = {
+            newName: $("#nameSign").val().trim(),
 
-            check: false,
-            val: $("#emailSign").val().trim()
+            newEmail: $("#emailSign").val().trim(),
+
+            newPass: $("#passwordSign").val().trim()
 
         }
 
-        let newPassword = $("#passwordSign").val().trim();
-
-        if (newName == "" || newEmail.val == "" || newPassword == "") {
+        if (checkObj.newName == "" || checkObj.newEmail == "" || checkObj.newPass == "") {
 
             alert("Please fill out fill all fields.");
 
         } else {
 
-            allUsers();
+            checkAll();
 
         }
 
-        function allUsers() {
+        function checkAll() {
 
-            $.get("/api/users", function (data) {
+            $.ajax({
 
-                data.forEach(element => {
+                method: "POST",
+                url: "/signup/check/",
+                data: checkObj
 
-                    if (element.email === newEmail.val) {
+            }).then(function (data) {
 
-                        return newEmail.check = true;
+                if (data === "USER ALREADY EXISTS. LOG IN INSTEAD.") {
 
-                    }
-
-                });
-
-                if (newEmail.check === true) {
-
-                    alert("Email already exists, please log in.");
+                    alert("User already exists. Log in instead.");
 
                 } else {
 
-                    console.log("all good");
-
-                    let newUser = {
-
-                        name: newName,
-                        email: newEmail.val,
-                        password: newPassword
-
-                    }
-
-                    $.ajax({
-
-                        method: "POST",
-                        url: "/api/users",
-                        data: newUser
-
-                    }).then(function (result) {
-
-                        let userId = result.id;
-
-                        console.log("Signed up.");
-
-                        window.location.href = `/users/accounts/${userId}`;
-
-                    });
+                    window.location.href = `/users/accounts/${data}`;
 
                 }
 
@@ -259,8 +229,6 @@ $(document).ready(function () {
 
         } else {
 
-            console.log(`\n${expName}\n${expSelect}\n${expType}\n${expAmount}\n${expDate}\n`);
-
             let newExp = {
 
                 expName: expName,
@@ -280,8 +248,8 @@ $(document).ready(function () {
             }).then(function (result) {
 
                 console.log(result);
-
-                console.log("expense added.");
+ 
+                console.log("Expense added.");
 
             });
 

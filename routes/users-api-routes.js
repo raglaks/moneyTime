@@ -15,40 +15,46 @@ module.exports = function (app) {
 
     });
 
-    //password check
-    app.get("/passCheck/", function (req, res) {
+    //route for sign up check and post
+    app.post("/signup/check/", function (req, res) {
 
         db.users.findAll({
 
             where: {
 
-                email: req.body.email
+                email: req.body.newEmail
 
             }
 
         }).then(function (data) {
 
-            if (data) {
+            if (data.length === 0) {
 
-                bcrypt.compare(req.body.password, data.password, function (err, passRes) {
+                let pass = req.body.newPass;
+
+                bcrypt.hash(pass, 10, function (err, hash) {
 
                     if (err) throw err;
 
-                    if (passRes === true) {
+                    db.users.create({
 
-                        console.log("OK");
+                        name: req.body.newName,
+                        email: req.body.newEmail,
+                        password: hash
 
-                    } else {
+                    }).then(function (data) {
 
-                        console.log("wrong password");
+                        let userId = data.id;
 
-                    }
+                        res.json(userId);
 
-                });
+                    });
+
+                })
 
             } else {
 
-                console.log("please create an account or check your login details");
+                res.json("USER ALREADY EXISTS. LOG IN INSTEAD.");
 
             }
 
@@ -56,7 +62,8 @@ module.exports = function (app) {
 
     });
 
-    app.post("/api/check/", function (req, res) {
+    //route to check login info
+    app.post("/login/check/", function (req, res) {
 
         db.users.findAll({
 
@@ -101,33 +108,33 @@ module.exports = function (app) {
     });
 
     //POST to create new users--AHUEVO
-    app.post("/api/users", function (req, res) {
+    // app.post("/api/users", function (req, res) {
 
-        bcrypt.hash(req.body.password, 10, function (err, hash) {
+    //     bcrypt.hash(req.body.password, 10, function (err, hash) {
 
-            if (err) {
+    //         if (err) {
 
-                throw err;
+    //             throw err;
 
-            } else {
+    //         } else {
 
-                db.users.create({
+    //             db.users.create({
 
-                    name: req.body.name,
-                    email: req.body.email,
-                    password: hash
+    //                 name: req.body.name,
+    //                 email: req.body.email,
+    //                 password: hash
 
-                }).then(function (data) {
+    //             }).then(function (data) {
 
-                    res.json(data);
+    //                 res.json(data);
 
-                });
+    //             });
 
-            }
+    //         }
 
-        });
+    //     });
 
-    });
+    // });
 
     //DELETE user by id--VV
     app.delete("/api/users/:id", function (req, res) {
