@@ -1,4 +1,5 @@
 const db = require("../models");
+const moment = require('moment');
 
 module.exports = function (app) {
 
@@ -14,22 +15,28 @@ module.exports = function (app) {
 
     });
 
-    app.get("/api/expenses/:id", function (req, res) {
+    app.get("/api/expenses/month/:id", function (req, res) {
 
         let userID = req.params.id;
-
+        //const Op = db.sequelize.Op;
+        const op = db.Sequelize.Op;
+        
+        let date1 = moment("2018-11-01");
+        let date2 = moment("2018-11-31");
         //remember to use the table name and NOT the constructor name here
         db.expenses.findAll({
-
             where: {
+                userid: req.params.id,
                 deletedExpense: false,
-                userid: userID,
-            }
-
-        }).then(function (data) {
-
+                expDate: { [op.between]: ["2018-09-01", "2018-11-31"]}
+                //expAmount: {[op.between]:[0,100]}
+            },
+            attributes: [[db.sequelize.fn('month', db.sequelize.col('expDate')), "month"], [db.sequelize.fn('sum', db.sequelize.col('expAmount')), "y"]],
+            //group: ["expType"]
+            group: [db.sequelize.fn('month', db.sequelize.col('expDate'))]
+        }).then((data) => {
+            
             res.json(data);
-
         });
 
     });

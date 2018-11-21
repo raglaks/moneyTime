@@ -53,9 +53,28 @@ module.exports = function (app) {
 
             }
 
-            console.log(parse);
+            
+            db.expenses.findAll({
+                where: {
+                    userid: req.params.id,
+                    deletedExpense: false
+                },
+                attributes: [['expType',"name"], [db.sequelize.fn('sum', db.sequelize.col('expAmount')), "y"]],
+                //group: ["expType"]
+                group: "expType"
+            }).then((data) => {
+                console.log(JSON.stringify(data));
+                let cats = JSON.stringify(data);
+                parse.category = JSON.parse(cats);
+                console.log(parse);
+                parse.stringify = JSON.stringify(parse.category);
+                
+                //console.log(parse.stringify.replace(/"/g, ""));
 
-            res.render("expenseAll", parse);
+                res.render("expenseAll", parse);
+            });
+            
+            
 
         });
 
