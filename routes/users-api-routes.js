@@ -62,7 +62,7 @@ module.exports = function (app) {
 
             where: {
 
-                email: req.body.val
+                email: req.body.oldEmail
 
             }
 

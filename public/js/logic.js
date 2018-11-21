@@ -101,29 +101,24 @@ $(document).ready(function () {
 
 
     $("#submitLog").on("click", function (event) {
+
         event.preventDefault();
 
-        //create objects for both email and password values with default false checks
-        let oldEmail = {
+        let checkObj = {
 
-            check: false,
-            val: $("#emailLog").val().trim()
+            oldEmail: $("#emailLog").val().trim(),
 
-        };
+            oldPass: $("#passwordLog").val().trim()
 
-        let oldPass = {
-
-            check: false,
-            val: $("#passwordLog").val().trim()
-
-        };
+        }
 
         //if statement to check that both fields are not empty
-        if (oldEmail.val == "" || oldPass.val == "") {
+        if (checkObj.oldEmail == "" || checkObj.oldPass == "") {
 
             alert("Please fill out all fields.");
 
         } else {
+
             //if not then db check function for matching values is called
             checkUsers();
 
@@ -131,27 +126,26 @@ $(document).ready(function () {
 
         function checkUsers() {
 
-            // if (oldEmail.check === false && oldPass.check === false) {
-
-            //     alert("Account not found. Please create an account or check login details.");
-
-            // }
-
             $.ajax({
 
                 method: "POST",
                 url: "/api/check/",
-                data: oldEmail
+                data: checkObj
 
             }).then(function (data) {
 
-                console.log(oldEmail);
-                //var RespEmail = result[0].email
-                //var RespPswd = result[0].password
+                console.log(data.length);
+                
+                if (data.length = 0) {
 
-                console.log(data);
-                //console.log(RespEmail)
-                //console.log(RespPswd)
+                    alert("USER NOT FOUND");
+
+                } else {
+
+                    console.log(data);
+                    console.log("users exists, password func: ");
+
+                }
 
             });
 
