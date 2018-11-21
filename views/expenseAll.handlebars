@@ -1,0 +1,179 @@
+<div class="offset-md-1 col-md-10 offset-sm-1 col-sm-10" id="accounts">
+    <table style="width:100%">
+        <tr>
+            <th>Expense</th>
+            <th>Account</th>
+            <th>Type</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+
+        {{#each result}}
+        <tr id="tableRow{{id}}">
+            <td>{{expName}}</td>
+            <td>{{finAccount}}</td>
+            <td>{{expType}}</td>
+            <td>{{expDate}}</td>
+            <td>{{expAmount}}</td>
+            <td>
+                <svg class="iconB expEd" id="a" data-id={{id}} viewBox="0 0 32 32" width="15" height="15" fill="none" stroke="currentcolor" stroke-linecap="round"
+                    stroke-linejoin="round" stroke-width="2">
+                    <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
+                </svg>
+            </td>
+            <td>
+                <svg class="iconB expDel" id="b" data-id={{id}} viewBox="0 0 32 32" width="10" height="10" fill="none" stroke="currentcolor"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    <path d="M2 30 L30 2 M30 30 L2 2" />
+                </svg>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modify Expense</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 {{!-- exp Name --}}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Expense</span>
+                    </div>
+                    <input id="expNameM" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+                {{!-- exp Acc --}}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="expAccSelMod">Account</label>
+                    </div>
+                    <select class="custom-select" id="expAccSelMod">
+                        <option selected disabled></option>
+                        <option value="debit">Debit</option>
+                        <option value="credit">Credit</option>
+                        <option value="wallet">Wallet</option>
+                    </select>
+                </div>
+                {{!--Exp Category /  type --}}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Type</span>
+                    </div>
+                    <input id="expCatMod" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+                {{!-- Exp Date --}}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Expense Date</span>
+                    </div>
+                    <input id="expDate" class="calendar form-control" type="text" placeholder="Select Date.." readonly="readonly">
+                </div>
+                {{!--Exp Amount --}}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Amount</span>
+                    </div>
+                    <input id="expAm" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveExpModal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="delModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Expense</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete these expense?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" id="delModalBtn">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".expEd").click((a)=>{
+        $('#exampleModal').modal('toggle');
+        $("#saveExpModal").attr("data-id", a.currentTarget.dataset.id);
+        let table = $("#tableRow"+ a.currentTarget.dataset.id);
+       
+
+        
+    });
+
+    $(".calendar").flatpickr({
+            enableTime: false,
+            dateFormat: "Y-m-d",
+    });
+
+    $(".expDel").click((a) => {
+        $('#delModal').modal('toggle');
+        $("#delModalBtn").attr("data-id", a.currentTarget.dataset.id);
+        //console.log(a.currentTarget.dataset.id);
+    });
+    
+    $("#delModalBtn").click((ev) => {
+        //console.log(ev.currentTarget.dataset.id);
+        let id = ev.currentTarget.dataset.id;
+        console.log(id);
+        $.ajax("/api/expenses/delete/"+id,{
+            type:"PUT",
+            data: {
+                change: true
+            }
+        }).then((data) => {
+            console.log("deleted");
+            location.reload();
+        })
+    });
+
+    $("#saveExpModal").click((ev)=>{
+        console.log(ev.currentTarget.dataset.id);
+        let updateExp = new modExpObj($("#expNameM").val(),$("#expAccSelMod").val(),$("#expCatMod").val(),$("#expDate").val(),$("#expAm").val(), ev.currentTarget.dataset.id);
+        console.log(updateExp);
+        $.ajax("/api/expenses/update/"+updateExp.id,{
+            type:"PUT",
+            data: updateExp
+        }).then((data)=>{
+            console.log("created new Financial Account");
+
+            location.reload();
+        })
+    });
+
+    function modExpObj(Expense, Account, Type, Date1, Amount,id) {
+        this.Expense = Expense,
+        this.Account = Account,
+        this.Type = Type,
+        this.Date = Date1,
+        this.Amount = Amount,
+        this.id = id 
+    }
+
+  
+
+
+</script>
