@@ -22,9 +22,8 @@ module.exports = function (app) {
         db.expenses.findAll({
 
             where: {
-
-                userid: userID
-
+                deletedExpense: false,
+                userid: userID,
             }
 
         }).then(function (data) {
@@ -58,19 +57,19 @@ module.exports = function (app) {
     });
 
     //DELETE expense by id--TAREA
-    app.put("/api/expenses/:id", function (req, res) {
+    app.put("/api/expenses/delete/:id", function (req, res) {
+        console.log(JSON.parse(req.body.change));
+        db.expenses.update({
 
-        db.expenses.destroy({
+            deletedExpense: JSON.parse(req.body.change)
 
-            where: {
+        }, {
+                where: {
+                    id: req.params.id
+                }
+            }).then(function (data) {
 
-                id: req.params.id
-
-            }
-
-        }).then( function (data) {
-
-            res.json(data);
+                res.json(data);
 
         });
 
@@ -78,24 +77,24 @@ module.exports = function (app) {
 
     app.put("/api/expenses/update/:id", function (req, res) {
 
-        console.log(req.body.data)
-        // db.expenses.update({
+        console.log(req.body.Expense)
+        db.expenses.update({
 
-        //     expName: req.body.,
-        //     finAccount:,
-        //     expType:,
-        //     expDate:,
-        //     expAmount
+            expName: req.body.Expense,
+            finAccount: req.body.Account,
+            expType: req.body.Type,
+            expDate: req.body.Date,
+            expAmount: req.body.Amount
 
-        // },{
-        //     where:{
-        //         id:req.body.id
-        //     }
-        // }).then(function (data) {
+        },{
+            where:{
+                id: req.body.id
+            }
+        }).then(function (data) {
 
-        //     res.json(data);
+            res.json(data);
 
-        // });
+        });
 
     });
 

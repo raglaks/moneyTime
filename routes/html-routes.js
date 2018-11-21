@@ -36,7 +36,7 @@ module.exports = function (app) {
         db.expenses.findAll({
 
             where: {
-
+                deletedExpense: false,
                 userid: req.params.id
 
             }

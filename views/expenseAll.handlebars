@@ -18,13 +18,13 @@
             <td>{{expDate}}</td>
             <td>{{expAmount}}</td>
             <td>
-                <svg class="iconB" id="expEd" data-id={{id}} viewBox="0 0 32 32" width="15" height="15" fill="none" stroke="currentcolor" stroke-linecap="round"
+                <svg class="iconB expEd" id="a" data-id={{id}} viewBox="0 0 32 32" width="15" height="15" fill="none" stroke="currentcolor" stroke-linecap="round"
                     stroke-linejoin="round" stroke-width="2">
                     <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
                 </svg>
             </td>
             <td>
-                <svg class="iconB" id="expDel" data-id={{id}} viewBox="0 0 32 32" width="10" height="10" fill="none" stroke="currentcolor"
+                <svg class="iconB expDel" id="b" data-id={{id}} viewBox="0 0 32 32" width="10" height="10" fill="none" stroke="currentcolor"
                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                     <path d="M2 30 L30 2 M30 30 L2 2" />
                 </svg>
@@ -115,7 +115,7 @@
 </div>
 
 <script>
-    $("#expEd").click((a)=>{
+    $(".expEd").click((a)=>{
         $('#exampleModal').modal('toggle');
         $("#saveExpModal").attr("data-id", a.currentTarget.dataset.id);
         let table = $("#tableRow"+ a.currentTarget.dataset.id);
@@ -129,14 +129,25 @@
             dateFormat: "Y-m-d",
     });
 
-    $("#expDel").click((a) => {
+    $(".expDel").click((a) => {
         $('#delModal').modal('toggle');
         $("#delModalBtn").attr("data-id", a.currentTarget.dataset.id);
         //console.log(a.currentTarget.dataset.id);
     });
     
     $("#delModalBtn").click((ev) => {
-        console.log(ev.currentTarget.dataset.id);
+        //console.log(ev.currentTarget.dataset.id);
+        let id = ev.currentTarget.dataset.id;
+        console.log(id);
+        $.ajax("/api/expenses/delete/"+id,{
+            type:"PUT",
+            data: {
+                change: true
+            }
+        }).then((data) => {
+            console.log("deleted");
+            location.reload();
+        })
     });
 
     $("#saveExpModal").click((ev)=>{
