@@ -107,35 +107,6 @@ module.exports = function (app) {
 
     });
 
-    //POST to create new users--AHUEVO
-    // app.post("/api/users", function (req, res) {
-
-    //     bcrypt.hash(req.body.password, 10, function (err, hash) {
-
-    //         if (err) {
-
-    //             throw err;
-
-    //         } else {
-
-    //             db.users.create({
-
-    //                 name: req.body.name,
-    //                 email: req.body.email,
-    //                 password: hash
-
-    //             }).then(function (data) {
-
-    //                 res.json(data);
-
-    //             });
-
-    //         }
-
-    //     });
-
-    // });
-
     //DELETE user by id--VV
     app.delete("/api/users/:id", function (req, res) {
 
