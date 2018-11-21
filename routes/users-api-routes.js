@@ -68,27 +68,38 @@ module.exports = function (app) {
 
         }).then(function (data) {
 
-            res.json(data);
+            if (data.length === 0) {
 
-            let oldPass = req.body.oldPass;
+                res.json("USER NOT FOUND");
 
-            let hash = data[0].password;
+            } else {
 
-            bcrypt.compare(oldPass, hash, function(err, res) {
-                
-                if (err) throw err;
+                let oldPass = req.body.oldPass;
 
-                if (res) {
+                let hash = data[0].password;
 
-                    console.log("correct password");
+                bcrypt.compare(oldPass, hash, function (err, res) {
 
-                } else {
+                    if (err) throw err;
 
-                    console.log("wrong password");
+                    if (res) {
 
-                }
+                        console.log("correct password");
 
-            });
+                        res.json("ALL GOOD");
+
+                    } else {
+
+                        console.log("wrong password");
+
+                        res.json("WRONG PASSWORD");
+
+                    }
+
+                });
+
+            }
+
         });
 
     });

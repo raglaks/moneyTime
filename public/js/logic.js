@@ -134,28 +134,9 @@ $(document).ready(function () {
 
             }).then(function (data) {
                 
-                if (data.length === 0) {
-
-                    alert("USER NOT FOUND");
-
-                } else {
-
-                    // console.log(data[0].email);
-                    console.log("users exists");
-
-                    // let hashed = data[0].password;
-
-                    // checkPass(hashed);
-
-                }
-
+                console.log(data);
+                
             });
-
-        }
-
-        function checkPass(hashed) {
-
-            // console.log(hashed);
 
         }
 
