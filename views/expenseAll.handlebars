@@ -1,3 +1,12 @@
+
+{{#each accounts}}
+    <div class="offset-md-1 col-md-2 accTot" >
+        <h4>{{Account}}</h4>
+        <h2 style="text-align:center">{{y}}</h2>
+    </div>
+{{/each}}
+
+
 <div class="offset-md-1 col-md-10 offset-sm-1 col-sm-10" id="accounts">
     <table style="width:100%">
         <tr>
@@ -180,56 +189,8 @@
         this.id = id 
     }
 
-    let jsonObj = "{{stringify}}";
-    let obj = jsonObj.replace(/&quot;/g, '"');
-    let catArr = JSON.parse(obj);
-    let series = [{
-        name:"Expenses",
-        colorByPoint: true,
-        data: catArr
-
-    }];
-    //console.log(series);
-
-    Highcharts.chart('grapg', {
-             colors: ['#7cb5ec', '#f7a35c', '#90ee7e', '#7798BF', '#aaeeee', '#ff0066',
-            '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie',
-                style: {
-                    fontFamily: 'Dosis, sans-serif'
-                }
-            },
-            title: {
-                text: '% of Expenses by Category',
-                style: {
-                    fontSize: "15px"
-                }
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
-                borderWidth: 0,
-                backgroundColor: 'rgba(219,219,216,0.8)',
-                shadow: false
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                        }
-                    }
-                }
-            },
-            series
-        });
+    
+    
 
     $(document).ready(()=>{
 
@@ -247,8 +208,8 @@
                lgo.push(obk.month)
                dto.push(obk.y)
             });
-            console.log(lgo);
-            console.log(dto);
+            //console.log(lgo);
+            //console.log(dto);
 
             Highcharts.chart('graphg2', {
                 chart: {
@@ -289,6 +250,59 @@
             });
 
         });
+
+
+        $.ajax("/api/expenses/account/"+id,{
+            type:"GET",
+        }).then((arr)=>{
+            //console.log(arr);
+            let series = [{
+                name: "Expenses",
+                colorByPoint: true,
+                data: arr
+
+            }];
+            console.log(series);
+                Highcharts.chart('grapg', {
+                colors: ['#7cb5ec', '#f7a35c', '#90ee7e', '#7798BF', '#aaeeee', '#ff0066',
+                    '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie',
+                    style: {
+                        fontFamily: 'Dosis, sans-serif'
+                    }
+                },
+                title: {
+                    text: '% of Expenses by Category',
+                    style: {
+                        fontSize: "15px"
+                    }
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+                    borderWidth: 0,
+                    backgroundColor: 'rgba(219,219,216,0.8)',
+                    shadow: false
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series
+            });
+        })
     });
         
 
