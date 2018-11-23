@@ -68,9 +68,10 @@
                         <label class="input-group-text" for="expAccSelMod">Account</label>
                     </div>
                     <select class="custom-select" id="expAccSelMod">
-                        <option value="debit">Debit</option>
-                        <option value="credit">Credit</option>
-                        <option value="wallet">Wallet</option>
+                        {{#each userAccs}}
+                        <option value="{{finAccount}}">{{finAccount}}</option>
+                        {{/each}}
+                        
                     </select>
                 </div>
                 {{!--Exp Category / type --}}
@@ -78,8 +79,9 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Type</span>
                     </div>
-                    <input id="expCatMod" type="text" class="form-control" aria-label="Sizing example input"
-                        aria-describedby="inputGroup-sizing-default">
+                    <select class="custom-select" id="expType">
+                        <option id="expCatMod"></option>
+                    </select>
                 </div>
                 {{!-- Exp Date --}}
                 <div class="input-group mb-3">
@@ -153,7 +155,6 @@
             $("#expNameM").val(exp[0].expName);
             $("#expAccSelMod").val(exp[0].finAccount);
             $("#expCatMod").val(exp[0].expType);
-            
             $("#expAm").val(exp[0].expAmount);
         })
         

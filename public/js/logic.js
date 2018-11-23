@@ -12,7 +12,16 @@ $(document).ready(function () {
 
     //correct date is then assigned to the corresponding field
     $("#expDate").val(new Date().toDateInputValue());
+    function categ(){
+        let catArrr = ["food & drink","shopping","transport","home","bill & fees","entertainment","car","travel","family","healthcare","education","groceries","gift","work","hobbies","beauty","other","sports"];
+        catArrr.forEach(element => {
+            let elem = "<option value=" + element + ">" + element + "</option>"
+            $("#expType").append(elem);
+        });
+    };
 
+    categ();
+    
     $("#inputGroupSelect01").change(() => {
         //console.log($("#inputGroupSelect01").val());
         let accType = $("#inputGroupSelect01").val();
