@@ -41,13 +41,53 @@ module.exports = function (app) {
 
     });
 
+    //GET for the account sum
+    app.get("/api/expenses/account/:id", function (req, res) {
+        let userID = req.params.id;
+        const op = db.Sequelize.Op;
+        //remember to use the table name and NOT the constructor name here
+        // db.expenses.findAll({
+        //     where: {
+        //         userid: req.params.id,
+        //         deletedExpense: false,
+        //         expDate: { [op.between]: ["2018-11-01", "2018-11-31"] }
+        //         //expAmount: {[op.between]:[0,100]}
+        //     },
+        //     attributes: [["finAccount", "Account"], [db.sequelize.fn('sum', db.sequelize.col('expAmount')), "y"]],
+        //     group: ["finAccount"]
+        //     //group: [db.sequelize.fn('month', db.sequelize.col('expDate'))]
+        // }).then((data) => {
+        //     res.json(data);
+        // });
+
+        ///
+        db.expenses.findAll({
+            where: {
+                userid: req.params.id,
+                deletedExpense: false
+            },
+            attributes: [['expType', "name"], [db.sequelize.fn('sum', db.sequelize.col('expAmount')), "y"]],
+            //group: ["expType"]
+            group: "expType"
+        }).then((data) => {
+            // console.log(JSON.stringify(data));
+            // let cats = JSON.stringify(data);
+            // parse.category = JSON.parse(cats);
+            // console.log(parse);
+            // parse.stringify = JSON.stringify(parse.category);
+            // //console.log(parse.stringify.replace(/"/g, ""));
+            // res.render("expenseAll", parse);
+            res.json(data);
+        });
+        ///
+
+    });
+
+
     //POST to create new expense
     app.post("/api/expenses/:id", function (req, res) {
-
         let userID = req.params.id;
-
         db.expenses.create({
-
             userid: userID,
             expName: req.body.expName,
             finAccount: req.body.finAccount,
@@ -56,53 +96,40 @@ module.exports = function (app) {
             expAmount: req.body.expAmount
             
         }).then( function (data) {
-
             res.json(data);
-
         });
-
     });
 
     //DELETE expense by id--TAREA
     app.put("/api/expenses/delete/:id", function (req, res) {
         console.log(JSON.parse(req.body.change));
         db.expenses.update({
-
             deletedExpense: JSON.parse(req.body.change)
-
         }, {
-                where: {
-                    id: req.params.id
-                }
-            }).then(function (data) {
-
-                res.json(data);
-
+            where: {
+                id: req.params.id
+            }
+        }).then(function (data) {
+            res.json(data);
         });
 
     });
 
     app.put("/api/expenses/update/:id", function (req, res) {
-
         console.log(req.body.Expense)
         db.expenses.update({
-
             expName: req.body.Expense,
             finAccount: req.body.Account,
             expType: req.body.Type,
             expDate: req.body.Date,
             expAmount: req.body.Amount
-
         },{
             where:{
                 id: req.body.id
             }
         }).then(function (data) {
-
             res.json(data);
-
         });
-
     });
 
 }
