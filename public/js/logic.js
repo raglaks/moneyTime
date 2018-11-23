@@ -210,7 +210,11 @@ $(document).ready(function () {
 
                 if (data === "USER ALREADY EXISTS. LOG IN INSTEAD.") {
 
-                    alert("User already exists. Log in instead.");
+                    let targ = $("#signAlert");
+
+                    targ.empty();
+
+                    targ.text("User already exists. Log in instead.");
 
                 } else {
 
