@@ -137,16 +137,24 @@ $(document).ready(function () {
                 data: checkObj
 
             }).then(function (data) {
-                
+
                 console.log(data);
 
                 if (data === "USER NOT FOUND") {
 
-                    alert("User not found. Please create an account.");
+                    let targ = $("#signLog");
+
+                    targ.empty();
+
+                    targ.text("User not found, please create an account.");
 
                 } else if (data === "WRONG PASSWORD") {
 
-                    alert("Please check your password.");
+                    let targ = $("#signLog");
+
+                    targ.empty();
+
+                    targ.text("Wrong password. Please retry.");
 
                 } else {
 
@@ -202,7 +210,11 @@ $(document).ready(function () {
 
                 if (data === "USER ALREADY EXISTS. LOG IN INSTEAD.") {
 
-                    alert("User already exists. Log in instead.");
+                    let targ = $("#signAlert");
+
+                    targ.empty();
+
+                    targ.text("User already exists. Log in instead.");
 
                 } else {
 
@@ -233,7 +245,11 @@ $(document).ready(function () {
 
         if (expName == "" || expType == "" || expAmount == "") {
 
-            alert("Please fill out fill all fields.");
+            let targ = $("#expAlert");
+
+            targ.empty();
+
+            targ.text("Please fill out all fields.");
 
         } else {
 
@@ -257,9 +273,6 @@ $(document).ready(function () {
                 console.log(result);
                 console.log("expense added.");
                 location.reload();
-                
- 
-                
 
             });
 
