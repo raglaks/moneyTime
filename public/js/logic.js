@@ -245,7 +245,11 @@ $(document).ready(function () {
 
         if (expName == "" || expType == "" || expAmount == "") {
 
-            alert("Please fill out fill all fields.");
+            let targ = $("#expAlert");
+
+            targ.empty();
+
+            targ.text("Please fill out all fields.");
 
         } else {
 
@@ -269,9 +273,6 @@ $(document).ready(function () {
                 console.log(result);
                 console.log("expense added.");
                 location.reload();
-
-
-
 
             });
 
