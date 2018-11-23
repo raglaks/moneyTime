@@ -270,21 +270,21 @@ $(document).ready(function () {
                 data: newExp
 
             }).then(function (result) {
+
                 console.log(result);
                 console.log("expense added.");
-                location.reload();
+
+                $("#expName").val(" ");
+                $("#expType").val(" ");
+                $("#expAmount").val(" ");
+
+                $("#expAlert").text("Successfully added!");
 
             });
 
         }
 
     });
-
-    // $("#home").on("click", function (event) {
-
-    //     window.location.href = "/";
-
-    // });
 
     $("#expense").on("click", function (event) {
 

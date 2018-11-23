@@ -76,7 +76,9 @@ module.exports = function (app) {
             expAmount: req.body.expAmount
             
         }).then( function (data) {
+
             res.json(data);
+            
         });
     });
 
