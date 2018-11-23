@@ -16,26 +16,28 @@ module.exports = function (app) {
     });
 
     app.get("/api/expenses/month/:id", function (req, res) {
-
         let userID = req.params.id;
         //const Op = db.sequelize.Op;
         const op = db.Sequelize.Op;
-        
-        let date1 = moment("2018-11-01");
-        let date2 = moment("2018-11-31");
+        let date1 = moment();
+        let fMonth = date1.add(1, "M").month()+1;
+        let pMonth = date1.subtract(2, "M").month() ;
+        let fdate = date1.add(1, "M").year() + "-" + fMonth +"-" +31;
+        let pdate = date1.subtract(1, "M").year() + "-" + pMonth + "-" + 1;
+        //console.log(fdate);
         //remember to use the table name and NOT the constructor name here
         db.expenses.findAll({
             where: {
                 userid: req.params.id,
                 deletedExpense: false,
-                expDate: { [op.between]: ["2018-09-01", "2018-11-31"]}
+                expDate: { [op.between]: [pdate, fdate]}
                 //expAmount: {[op.between]:[0,100]}
             },
             attributes: [[db.sequelize.fn('month', db.sequelize.col('expDate')), "month"], [db.sequelize.fn('sum', db.sequelize.col('expAmount')), "y"]],
             //group: ["expType"]
-            group: [db.sequelize.fn('month', db.sequelize.col('expDate'))]
+            group: [db.sequelize.fn('month', db.sequelize.col('expDate'))],
+            order: [[db.sequelize.fn('month', db.sequelize.col('expDate')),'Asc']]
         }).then((data) => {
-            
             res.json(data);
         });
 
@@ -46,21 +48,6 @@ module.exports = function (app) {
         let userID = req.params.id;
         const op = db.Sequelize.Op;
         //remember to use the table name and NOT the constructor name here
-        // db.expenses.findAll({
-        //     where: {
-        //         userid: req.params.id,
-        //         deletedExpense: false,
-        //         expDate: { [op.between]: ["2018-11-01", "2018-11-31"] }
-        //         //expAmount: {[op.between]:[0,100]}
-        //     },
-        //     attributes: [["finAccount", "Account"], [db.sequelize.fn('sum', db.sequelize.col('expAmount')), "y"]],
-        //     group: ["finAccount"]
-        //     //group: [db.sequelize.fn('month', db.sequelize.col('expDate'))]
-        // }).then((data) => {
-        //     res.json(data);
-        // });
-
-        ///
         db.expenses.findAll({
             where: {
                 userid: req.params.id,
@@ -70,16 +57,9 @@ module.exports = function (app) {
             //group: ["expType"]
             group: "expType"
         }).then((data) => {
-            // console.log(JSON.stringify(data));
-            // let cats = JSON.stringify(data);
-            // parse.category = JSON.parse(cats);
-            // console.log(parse);
-            // parse.stringify = JSON.stringify(parse.category);
-            // //console.log(parse.stringify.replace(/"/g, ""));
-            // res.render("expenseAll", parse);
             res.json(data);
         });
-        ///
+        
 
     });
 

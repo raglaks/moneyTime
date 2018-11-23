@@ -160,7 +160,7 @@ $(document).ready(function () {
 
                     console.log(data);
 
-                    window.location.href = `/users/accounts/${data}`;
+                    window.location.href = `/users/expenses/${data}`;
 
                 }
 
@@ -218,7 +218,7 @@ $(document).ready(function () {
 
                 } else {
 
-                    window.location.href = `/users/accounts/${data}`;
+                    window.location.href = `/users/expenses/${data}`;
 
                 }
 
