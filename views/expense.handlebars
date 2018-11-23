@@ -1,1 +1,57 @@
-<h1>$$$$$$$$$$$$$$$$$$$$$$$$$$</h1>
+<div class="col-lg-2"></div>
+
+<div class="col-lg-8 card-deck mx-auto">
+
+    <div class="card">
+
+        <div class="card-body">
+
+            <h2 class="card-title text-center">NEW EXPENSE</h2>
+
+            <form class="card-text">
+
+                <div class="form-group">
+                    <label for="expName">Name</label>
+                    <input type="name" class="form-control" id="expName" placeholder="Name">
+                </div>
+
+                <div class="form-group">
+                    <label for="expAccount">Account</label>
+                    
+                    <select class="custom-select" id="expSelect">
+                        {{#each userAccs}}
+                            <option value="{{finAccount}}">{{finAccount}}</option>
+                        {{/each}}
+                        
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="expType">Type</label>
+                    <select class="custom-select" id="expType">
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="expAmount">Amount</label>
+                    <input type="name" class="form-control" id="expAmount" placeholder="Amount">
+                </div>
+
+                <div class="form-group">
+                    <label for="expDate">Date</label>
+                    <input type="date" class="form-control" id="expDate" placeholder="Date">
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="submitExp">Submit</button>
+
+                <p class="text-danger" id="expAlert"></p>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="col-lg-2"></div>

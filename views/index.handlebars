@@ -4,7 +4,7 @@
 
     <div class="card">
 
-        <img class="card-img-top padding indexPic" src="/images/kiwis.png" alt="kiwis">
+        <img class="card-img-top padding indexPic" src="/images/card1.png" alt="kiwis">
 
         <div class="card-body">
 
@@ -27,7 +27,9 @@
                     <input type="password" class="form-control" id="passwordSign" placeholder="Password">
                 </div>
 
-                <button type="submit" class="btn btn-primary" id="submitSign">Submit</button>
+                <button type="submit" class="btn btn-primary" id="submitSign">SUBMIT</button>
+
+                <p class="text-danger" id="signAlert"></p>
             </form>
 
         </div>
@@ -40,7 +42,7 @@
 
     <div class="card">
 
-        <img class="card-img-top padding indexPic" src="/images/naranjas.png" alt="naranjas">
+        <img class="card-img-top padding indexPic" src="/images/card2.png" alt="naranjas">
 
         <div class="card-body">
 
@@ -58,7 +60,9 @@
                     <input type="password" class="form-control" id="passwordLog" placeholder="Password">
                 </div>
 
-                <button type="submit" class="btn btn-primary" id="submitLog">Submit</button>
+                <button type="submit" class="btn btn-primary" id="submitLog">SUBMIT</button>
+
+                <p class="text-danger" id="signLog"></p>
             </form>
 
         </div>
@@ -69,118 +73,3 @@
 
 <div class="col-lg-2"></div>
 
-<script>
-
-    $(document).ready(function () {
-
-        console.log("homepage loaded");
-
-        $("#submitLog").on("click", function (event) {
-
-            event.preventDefault();
-
-            console.log("log in sub clicked");
-
-            let oldEmail = $("#emailLog").val().trim();
-            let oldPass = $("#passwordLog").val().trim();
-
-            if (oldEmail == "" || oldPass == "") {
-
-                alert("Please fill out all fields.");
-
-            } else {
-
-                allUsers();
-
-            }
-
-            function allUsers() {
-
-                $.get("/api/users", function (data) {
-
-                    console.log(data);
-
-                    let check = false;
-
-                    data.forEach(element => {
-
-                        console.log(element);
-                        console.log(check);
-
-                        if (element.email === oldEmail && element.password === oldPass) {
-
-                            check = true;
-
-                        } 
-
-                    });
-
-                    checkExis();
-
-                    function checkExis() {
-
-                        if (check) {
-
-                            console.log("logged in.");
-
-                        } else {
-
-                            alert("Email or password not found. Please retry.");
-
-                        }
-
-                    }
-                   
-                });
-
-            }
-
-        });
-
-        $("#submitSign").on("click", function (event) {
-
-            event.preventDefault();
-
-            console.log("sign up sub clicked");
-
-            let newName = $("#nameSign").val().trim();
-            let newEmail = $("#emailSign").val().trim();
-            let newPassword = $("#passwordSign").val().trim();
-
-            if (newName == "" || newEmail == "" || newPassword == "") {
-
-                alert("Please out fill all fields.");
-
-            } else {
-
-                let newUser = {
-
-                    name: newName,
-                    email: newEmail,
-                    password: newPassword
-
-                }
-
-                $.ajax({
-
-                    method: "POST",
-                    url: "/api/users",
-                    data: newUser
-
-                }).then(function () {
-
-                    console.log("Signed up.");
-
-                    $("#nameSign").val("");
-                    $("#emailSign").val("");
-                    $("#passwordSign").val("");
-
-                });
-
-            }
-
-        });
-
-    });
-
-</script>

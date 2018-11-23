@@ -1,8 +1,10 @@
 const db = require("../models");
+const moment = require('moment');
+
 
 module.exports = function (app) {
 
-    //GET to view all registered accounts
+    //GET to view all registered accounts--DEV
     app.get("/api/accounts/", function (req, res) {
 
         //remember to use the table name and NOT the constructor name here
@@ -14,33 +16,38 @@ module.exports = function (app) {
 
     });
 
-    //GET to view specific account
     app.get("/api/accounts/:id", function (req, res) {
 
+        //remember to use the table name and NOT the constructor name here
         db.accounts.findAll({
-
             where: {
-
-                id: req.params.id
-
+                userid: req.params.id
             }
-
-        }).then( function (data) {
+        }).then(function (data) {
 
             res.json(data);
 
-        })
+        });
 
     });
 
-    //POST to create new account
-    app.post("/api/accounts", function (req, res) {
+    //POST to create new account--AHUEVO
+    app.post("/api/accounts/:id", function (req, res) {
+
+        let userid = req.params.id;
+        let finAccount = req.body.accName;
+        let accountType = req.body.accType;
+        let statementDate = req.body.statementDate == "false" ? Date.now() : moment(req.body.statementDate,"YYYY-MM-DD");
+        let dueDate = req.body.dueDate == "false" ? Date.now() : moment(req.body.dueDate,"YYYY-MM-DD");
+        console.log(userid, " ", finAccount, " ", accountType, " ", statementDate, " ",dueDate);
 
         db.accounts.create({
 
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password
+            userid: userid,
+            finAccount: finAccount, 
+            accountType: accountType,
+            statementDate: statementDate,
+            dueDate: dueDate
 
         }).then( function (data) {
 
@@ -50,7 +57,7 @@ module.exports = function (app) {
 
     });
 
-    //DELETE account by id
+    //DELETE account by id-CHANGE TO PUT EDGAR
     app.delete("/api/accounts/:id", function (req, res) {
 
         db.accounts.destroy({

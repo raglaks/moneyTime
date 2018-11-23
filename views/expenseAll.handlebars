@@ -1,0 +1,334 @@
+
+{{#each accounts}}
+    <div class="offset-md-1 col-md-2 accTot" >
+        <h4>{{Account}}</h4>
+        <h2 style="text-align:center">{{y}}</h2>
+    </div>
+{{/each}}
+
+
+<div class="offset-md-1 col-md-10 offset-sm-1 col-sm-10" id="accounts">
+    <table style="width:100%">
+        <tr>
+            <th>Expense</th>
+            <th>Account</th>
+            <th>Type</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+
+        {{#each result}}
+        <tr id="tableRow{{id}}">
+            <td>{{expName}}</td>
+            <td>{{finAccount}}</td>
+            <td>{{expType}}</td>
+            <td>{{expDate}}</td>
+            <td>{{expAmount}}</td>
+            <td>
+                <svg class="iconB expEd" id="a" data-id={{id}} viewBox="0 0 32 32" width="15" height="15" fill="none"
+                    stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
+                </svg>
+            </td>
+            <td>
+                <svg class="iconB expDel" id="b" data-id={{id}} viewBox="0 0 32 32" width="10" height="10" fill="none"
+                    stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    <path d="M2 30 L30 2 M30 30 L2 2" />
+                </svg>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modify Expense</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{!-- exp Name --}}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Expense</span>
+                    </div>
+                    <input id="expNameM" type="text" class="form-control" aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-default">
+                </div>
+                {{!-- exp Acc --}}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="expAccSelMod">Account</label>
+                    </div>
+                    <select class="custom-select" id="expAccSelMod">
+                        {{#each userAccs}}
+                        <option value="{{finAccount}}">{{finAccount}}</option>
+                        {{/each}}
+                        
+                    </select>
+                </div>
+                {{!--Exp Category / type --}}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Type</span>
+                    </div>
+                    <select class="custom-select" id="expType">
+                        <option id="expCatMod"></option>
+                    </select>
+                </div>
+                {{!-- Exp Date --}}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Expense Date</span>
+                    </div>
+                    <input id="expDate" class="calendar form-control" type="text" placeholder="Select Date.." readonly="readonly">
+                </div>
+                {{!--Exp Amount --}}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Amount</span>
+                    </div>
+                    <input id="expAm" type="text" class="form-control" aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-default">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveExpModal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="delModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Expense</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete these expense?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" id="delModalBtn">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="offset-md-1 col-md-4 graff1">
+    <div id="grapg" style="min-width: 310px; height: 250px; margin: 0 auto"></div>
+</div>
+
+<div class="offset-md-2 col-md-4 graff1">
+    <div id="grapg2" style="min-width: 310px; height: 250px; margin: 0 auto"></div>
+</div>
+
+
+
+<script>
+    $(".expEd").click((a) => {
+        $('#exampleModal').modal('toggle');
+        $("#saveExpModal").attr("data-id", a.currentTarget.dataset.id);
+        let table = $("#tableRow" + a.currentTarget.dataset.id);
+        
+        $.ajax("/api/expenses",{
+            type: "GET",
+
+        }).then( data => {
+            //console.log(data);
+            let exp = data.filter((ele)=> ele.id == a.currentTarget.dataset.id);
+            //console.log(a.currentTarget.dataset.id);
+            console.log(exp);
+            
+            $("#expNameM").val(exp[0].expName);
+            $("#expAccSelMod").val(exp[0].finAccount);
+            $("#expCatMod").val(exp[0].expType);
+            $("#expAm").val(exp[0].expAmount);
+        })
+        
+    });
+
+    $(".calendar").flatpickr({
+        enableTime: false,
+        dateFormat: "Y-m-d",
+    });
+
+    $(".expDel").click((a) => {
+        $('#delModal').modal('toggle');
+        $("#delModalBtn").attr("data-id", a.currentTarget.dataset.id);
+        //console.log(a.currentTarget.dataset.id);
+    });
+
+    $("#delModalBtn").click((ev) => {
+        //console.log(ev.currentTarget.dataset.id);
+        let id = ev.currentTarget.dataset.id;
+        console.log(id);
+        $.ajax("/api/expenses/delete/" + id, {
+            type: "PUT",
+            data: {
+                change: true
+            }
+        }).then((data) => {
+            console.log("deleted");
+            location.reload();
+        })
+    });
+
+    $("#saveExpModal").click((ev) => {
+        console.log(ev.currentTarget.dataset.id);
+        let updateExp = new modExpObj($("#expNameM").val(), $("#expAccSelMod").val(), $("#expCatMod").val(), $("#expDate").val(), $("#expAm").val(), ev.currentTarget.dataset.id);
+        console.log(updateExp);
+        $.ajax("/api/expenses/update/" + updateExp.id, {
+            type: "PUT",
+            data: updateExp
+        }).then((data) => {
+            console.log("created new Financial Account");
+
+            location.reload();
+        })
+    });
+
+    function modExpObj(Expense, Account, Type, Date1, Amount, id) {
+        this.Expense = Expense,
+            this.Account = Account,
+            this.Type = Type,
+            this.Date = Date1,
+            this.Amount = Amount,
+            this.id = id
+    }
+    
+
+    
+
+    $(document).ready(() => {
+        let path = $(location).attr('pathname');
+        let pathArr = path.split("/");
+        let id = pathArr[3];
+
+        $.ajax("/api/expenses/month/" + id, {
+            type: "GET",
+        }).then((data) => {
+            const lgo = [];
+            const dto = [];
+            data.filter((obk) => {
+                lgo.push(obk.month)
+                dto.push(obk.y)
+            });
+            //console.log(lgo);
+            //console.log(dto);
+
+            Highcharts.chart('grapg2', {
+                chart: {
+                    type: 'column',
+                    style: {
+                        borderRadius: "5px"
+                    }
+                },
+                title: {
+                    text: 'Monthly Expenses'
+                },
+
+                xAxis: {
+                    categories: lgo,
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Expenses (usd)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Expenses',
+                    data: dto
+                }]
+            });
+
+        });
+
+
+        $.ajax("/api/expenses/account/"+id,{
+            type:"GET",
+        }).then((arr)=>{
+            //console.log(arr);
+            let series = [{
+                name: "Expenses",
+                colorByPoint: true,
+                data: arr
+
+            }];
+            //console.log(series);
+                Highcharts.chart('grapg', {
+                colors: ['#7cb5ec', '#f7a35c', '#90ee7e', '#7798BF', '#aaeeee', '#ff0066',
+                    '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie',
+                    style: {
+                        fontFamily: 'Dosis, sans-serif',
+                         borderRadius: "5px"
+                    }
+                },
+                title: {
+                    text: '% of Expenses by Category',
+                    style: {
+                        fontSize: "15px"
+                    }
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+                    borderWidth: 0,
+                    backgroundColor: 'rgba(219,219,216,0.8)',
+                    shadow: false
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series
+            });
+        })
+    });
+
+
+
+
+
+</script>
