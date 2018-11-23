@@ -27,14 +27,14 @@
             <td>{{expDate}}</td>
             <td>{{expAmount}}</td>
             <td>
-                <svg class="iconB expEd" id="a" data-id={{id}} viewBox="0 0 32 32" width="15" height="15" fill="none" stroke="currentcolor" stroke-linecap="round"
-                    stroke-linejoin="round" stroke-width="2">
+                <svg class="iconB expEd" id="a" data-id={{id}} viewBox="0 0 32 32" width="15" height="15" fill="none"
+                    stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                     <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
                 </svg>
             </td>
             <td>
-                <svg class="iconB expDel" id="b" data-id={{id}} viewBox="0 0 32 32" width="10" height="10" fill="none" stroke="currentcolor"
-                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <svg class="iconB expDel" id="b" data-id={{id}} viewBox="0 0 32 32" width="10" height="10" fill="none"
+                    stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                     <path d="M2 30 L30 2 M30 30 L2 2" />
                 </svg>
             </td>
@@ -54,12 +54,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                 {{!-- exp Name --}}
+                {{!-- exp Name --}}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Expense</span>
                     </div>
-                    <input id="expNameM" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <input id="expNameM" type="text" class="form-control" aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-default">
                 </div>
                 {{!-- exp Acc --}}
                 <div class="input-group mb-3">
@@ -73,12 +74,13 @@
                         <option value="wallet">Wallet</option>
                     </select>
                 </div>
-                {{!--Exp Category /  type --}}
+                {{!--Exp Category / type --}}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Type</span>
                     </div>
-                    <input id="expCatMod" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <input id="expCatMod" type="text" class="form-control" aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-default">
                 </div>
                 {{!-- Exp Date --}}
                 <div class="input-group mb-3">
@@ -92,7 +94,8 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Amount</span>
                     </div>
-                    <input id="expAm" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <input id="expAm" type="text" class="form-control" aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-default">
                 </div>
             </div>
             <div class="modal-footer">
@@ -124,7 +127,7 @@
 </div>
 <br>
 <div class="offset-md-1 col-md-4 graff1">
-    <div id="grapg" style="height: 250px; max-width: 600px; margin: 0 auto"></div>
+    <div id="grapg" style="min-width: 310px; height: 250px; margin: 0 auto"></div>
 </div>
 
 <div class="offset-md-2 col-md-4 graff1">
@@ -134,15 +137,15 @@
 
 
 <script>
-    $(".expEd").click((a)=>{
+    $(".expEd").click((a) => {
         $('#exampleModal').modal('toggle');
         $("#saveExpModal").attr("data-id", a.currentTarget.dataset.id);
-        let table = $("#tableRow"+ a.currentTarget.dataset.id);
+        let table = $("#tableRow" + a.currentTarget.dataset.id);
     });
 
     $(".calendar").flatpickr({
-            enableTime: false,
-            dateFormat: "Y-m-d",
+        enableTime: false,
+        dateFormat: "Y-m-d",
     });
 
     $(".expDel").click((a) => {
@@ -150,13 +153,13 @@
         $("#delModalBtn").attr("data-id", a.currentTarget.dataset.id);
         //console.log(a.currentTarget.dataset.id);
     });
-    
+
     $("#delModalBtn").click((ev) => {
         //console.log(ev.currentTarget.dataset.id);
         let id = ev.currentTarget.dataset.id;
         console.log(id);
-        $.ajax("/api/expenses/delete/"+id,{
-            type:"PUT",
+        $.ajax("/api/expenses/delete/" + id, {
+            type: "PUT",
             data: {
                 change: true
             }
@@ -166,54 +169,113 @@
         })
     });
 
-    $("#saveExpModal").click((ev)=>{
+    $("#saveExpModal").click((ev) => {
         console.log(ev.currentTarget.dataset.id);
-        let updateExp = new modExpObj($("#expNameM").val(),$("#expAccSelMod").val(),$("#expCatMod").val(),$("#expDate").val(),$("#expAm").val(), ev.currentTarget.dataset.id);
+        let updateExp = new modExpObj($("#expNameM").val(), $("#expAccSelMod").val(), $("#expCatMod").val(), $("#expDate").val(), $("#expAm").val(), ev.currentTarget.dataset.id);
         console.log(updateExp);
-        $.ajax("/api/expenses/update/"+updateExp.id,{
-            type:"PUT",
+        $.ajax("/api/expenses/update/" + updateExp.id, {
+            type: "PUT",
             data: updateExp
-        }).then((data)=>{
+        }).then((data) => {
             console.log("created new Financial Account");
 
             location.reload();
         })
     });
 
-    function modExpObj(Expense, Account, Type, Date1, Amount,id) {
+    function modExpObj(Expense, Account, Type, Date1, Amount, id) {
         this.Expense = Expense,
-        this.Account = Account,
-        this.Type = Type,
-        this.Date = Date1,
-        this.Amount = Amount,
-        this.id = id 
+            this.Account = Account,
+            this.Type = Type,
+            this.Date = Date1,
+            this.Amount = Amount,
+            this.id = id
     }
 
+
+    let jsonObj = "{{stringify}}";
+    let obj = jsonObj.replace(/&quot;/g, '"');
+    let catArr = JSON.parse(obj);
+    let series = [{
+        name: "Expenses",
+        colorByPoint: true,
+        data: catArr
+
+    }];
+    //console.log(series);
+
+    Highcharts.chart('grapg', {
+        colors: ['#7cb5ec', '#f7a35c', '#90ee7e', '#7798BF', '#aaeeee', '#ff0066',
+            '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+                style: {
+                fontFamily: 'Dosis, sans-serif',
+                borderRadius: "5px",
+            }
+        },
+        title: {
+            text: '% of Expenses by Category',
+            style: {
+                fontSize: "15px"
+            }
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+            borderWidth: 0,
+            backgroundColor: 'rgba(219,219,216,0.8)',
+            shadow: false
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series
+    });
+
+    $(document).ready(() => {
+
     
     
 
-    $(document).ready(()=>{
 
-    
+
         let path = $(location).attr('pathname');
         let pathArr = path.split("/");
         let id = pathArr[3];
 
-        $.ajax("/api/expenses/month/"+id,{
-            type:"GET",
+        $.ajax("/api/expenses/month/" + id, {
+            type: "GET",
         }).then((data) => {
-            const lgo = []; 
+            const lgo = [];
             const dto = [];
-            data.filter((obk)=>{
-               lgo.push(obk.month)
-               dto.push(obk.y)
+            data.filter((obk) => {
+                lgo.push(obk.month)
+                dto.push(obk.y)
             });
             //console.log(lgo);
             //console.log(dto);
 
             Highcharts.chart('graphg2', {
                 chart: {
-                    type: 'column'
+                    type: 'column',
+                    style: {
+
+                        borderRadius: "5px"
+
+                    }
                 },
                 title: {
                     text: 'Monthly Expenses'
@@ -304,9 +366,9 @@
             });
         })
     });
-        
 
-  
+
+
 
 
 </script>

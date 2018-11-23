@@ -115,7 +115,11 @@ $(document).ready(function () {
         //if statement to check that both fields are not empty
         if (checkObj.oldEmail == "" || checkObj.oldPass == "") {
 
-            alert("Please fill out all fields.");
+            let targ = $("#signLog");
+
+            targ.empty();
+
+            targ.text("Please fill out all fields.");
 
         } else {
 
@@ -174,7 +178,11 @@ $(document).ready(function () {
 
         if (checkObj.newName == "" || checkObj.newEmail == "" || checkObj.newPass == "") {
 
-            alert("Please fill out fill all fields.");
+            let targ = $("#signAlert");
+
+            targ.empty();
+
+            targ.text("Please fill out all fields.");
 
         } else {
 
