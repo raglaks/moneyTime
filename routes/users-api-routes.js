@@ -1,6 +1,7 @@
 const db = require("../models");
 const bcrypt = require("bcryptjs");
 
+
 module.exports = function (app) {
 
     //GET to view all registered users--DEV
@@ -46,7 +47,22 @@ module.exports = function (app) {
 
                         let userId = data.id;
 
-                        res.json(userId);
+                        
+                        
+                        db.accounts.create({
+
+                            userid: userId,
+                            finAccount: "Wallet",
+                            accountType: "wallet",
+                            statementDate: Date.now(),
+                            dueDate: Date.now()
+
+                        }).then(function (data1) {
+
+                            res.json(userId);
+
+                        });
+
 
                     });
 
