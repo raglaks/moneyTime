@@ -46,11 +46,7 @@ module.exports = function (app) {
                     }).then(function (data) {
 
                         let userId = data.id;
-
-                        
-                        
                         db.accounts.create({
-
                             userid: userId,
                             finAccount: "Wallet",
                             accountType: "wallet",
