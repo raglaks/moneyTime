@@ -131,7 +131,7 @@
 </div>
 
 <div class="offset-md-2 col-md-4 graff1">
-    <div id="graphg2" style="min-width: 310px; height: 250px; margin: 0 auto"></div>
+    <div id="grapg2" style="min-width: 310px; height: 250px; margin: 0 auto"></div>
 </div>
 
 
@@ -193,65 +193,9 @@
     }
 
 
-    let jsonObj = "{{stringify}}";
-    let obj = jsonObj.replace(/&quot;/g, '"');
-    let catArr = JSON.parse(obj);
-    let series = [{
-        name: "Expenses",
-        colorByPoint: true,
-        data: catArr
-
-    }];
-    //console.log(series);
-
-    Highcharts.chart('grapg', {
-        colors: ['#7cb5ec', '#f7a35c', '#90ee7e', '#7798BF', '#aaeeee', '#ff0066',
-            '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie',
-                style: {
-                fontFamily: 'Dosis, sans-serif',
-                borderRadius: "5px",
-            }
-        },
-        title: {
-            text: '% of Expenses by Category',
-            style: {
-                fontSize: "15px"
-            }
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
-            borderWidth: 0,
-            backgroundColor: 'rgba(219,219,216,0.8)',
-            shadow: false
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
-                }
-            }
-        },
-        series
-    });
+    
 
     $(document).ready(() => {
-
-    
-    
-
-
-
         let path = $(location).attr('pathname');
         let pathArr = path.split("/");
         let id = pathArr[3];
@@ -268,7 +212,7 @@
             //console.log(lgo);
             //console.log(dto);
 
-            Highcharts.chart('graphg2', {
+            Highcharts.chart('grapg2', {
                 chart: {
                     type: 'column',
                     style: {
