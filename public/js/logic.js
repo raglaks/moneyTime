@@ -279,11 +279,101 @@ $(document).ready(function () {
                 data: newExp
 
             }).then(function (result) {
+
                 console.log(result);
                 console.log("expense added.");
-                location.reload();
+
+                $("#expName").val(" ");
+                $("#expType").val(" ");
+                $("#expAmount").val(" ");
+
+                $("#expAlert").text("Successfully added!");
 
             });
+
+        }
+
+    });
+
+    $("#expense").on("click", function (event) {
+
+        let path = $(location).attr('pathname');
+        let pathArr = path.split("/");
+        let id = pathArr[3];
+
+        if (id === undefined) {
+
+            let targ = $("#signAlert");
+
+            targ.empty();
+
+            targ.text("Please create an account or log in to continue.");
+
+            let targ1 = $("#signLog");
+
+            targ1.empty();
+
+            targ1.text("Please create an account or log in to continue.");
+
+        } else {
+
+            window.location.href = `/users/expense/${id}`;
+
+        }
+
+    });
+
+    $("#account").on("click", function (event) {
+
+        let path = $(location).attr('pathname');
+        let pathArr = path.split("/");
+        let id = pathArr[3];
+
+        if (id === undefined) {
+
+            let targ = $("#signAlert");
+
+            targ.empty();
+
+            targ.text("Please create an account or log in to continue.");
+
+            let targ1 = $("#signLog");
+
+            targ1.empty();
+
+            targ1.text("Please create an account or log in to continue.");
+
+        } else {
+
+            window.location.href = `/users/config/${id}`;
+
+        }
+
+    });
+
+    $("#overview").on("click", function (event) {
+
+        let path = $(location).attr('pathname');
+        let pathArr = path.split("/");
+        let id = pathArr[3];
+
+        if (id === undefined) {
+
+            let targ = $("#signAlert");
+
+            targ.empty();
+
+            targ.text("Please create an account or log in to continue.");
+
+            let targ1 = $("#signLog");
+
+            targ1.empty();
+
+            targ1.text("Please create an account or log in to continue.");
+
+        } else {
+
+            window.location.href = `/users/expenses/${id}`;
 
         }
 

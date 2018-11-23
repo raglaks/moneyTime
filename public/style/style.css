@@ -66,6 +66,13 @@ td {
     border-radius: 5px;
 }
 
+#home, #expense, #account, #overview {
+
+    cursor: pointer;
+
+}
+
+
 
 
 
