@@ -71,28 +71,23 @@ module.exports = function (app) {
                 let cats = JSON.stringify(data);
                 parse.accounts = JSON.parse(cats);
                 parse.stringify = JSON.stringify(parse.category);
-                res.render("expenseAll", parse);
-            });
-            ///
-            // db.expenses.findAll({
-            //     where: {
-            //         userid: req.params.id,
-            //         deletedExpense: false
-            //     },
-            //     attributes: [['expType',"name"], [db.sequelize.fn('sum', db.sequelize.col('expAmount')), "y"]],
-            //     //group: ["expType"]
-            //     group: "expType"
-            // }).then((data) => {
-            //     console.log(JSON.stringify(data));
-            //     let cats = JSON.stringify(data);
-            //     parse.category = JSON.parse(cats);
-            //     console.log(parse);
-            //     parse.stringify = JSON.stringify(parse.category);
-                
-            //     //console.log(parse.stringify.replace(/"/g, ""));
+                db.accounts.findAll({
+                    where: {
+                        userid: req.params.id
+                    }
+                }).then(function (data) {
 
-            //     res.render("expenseAll", parse);
-            // });
+                    //res.json(data);
+                    let accs = JSON.stringify(data);
+                    parse.userAccs = JSON.parse(accs);
+                    //console.log(parse);
+
+                    res.render("expenseAll", parse);
+
+                });
+                
+            });
+            
             
             
 
@@ -103,7 +98,22 @@ module.exports = function (app) {
     //NEW EXPENSE
     app.get("/users/expense/:id", function (req, res) {
 
-        res.render("expense");
+        db.accounts.findAll({
+            where: {
+                userid: req.params.id
+            }
+        }).then(function (data) {
+
+            //res.json(data);
+            let accs = JSON.stringify(data);
+            let  parse = {};
+            parse.userAccs = JSON.parse(accs);
+            console.log(parse);
+
+            res.render("expense", parse);
+
+        });        
+        
 
     });
 
