@@ -137,16 +137,24 @@ $(document).ready(function () {
                 data: checkObj
 
             }).then(function (data) {
-                
+
                 console.log(data);
 
                 if (data === "USER NOT FOUND") {
 
-                    alert("User not found. Please create an account.");
+                    let targ = $("#signLog");
+
+                    targ.empty();
+
+                    targ.text("User not found, please create an account.");
 
                 } else if (data === "WRONG PASSWORD") {
 
-                    alert("Please check your password.");
+                    let targ = $("#signLog");
+
+                    targ.empty();
+
+                    targ.text("Wrong password. Please retry.");
 
                 } else {
 
@@ -257,9 +265,9 @@ $(document).ready(function () {
                 console.log(result);
                 console.log("expense added.");
                 location.reload();
-                
- 
-                
+
+
+
 
             });
 
