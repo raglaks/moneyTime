@@ -280,23 +280,17 @@ $(document).ready(function () {
 
     });
 
-    $("#home").on("click", function (event) {
+    // $("#home").on("click", function (event) {
 
-        console.log(event);
+    //     window.location.href = "/";
 
-        window.location.href = "/";
-
-    });
+    // });
 
     $("#expense").on("click", function (event) {
-
-        console.log(event);
 
         let path = $(location).attr('pathname');
         let pathArr = path.split("/");
         let id = pathArr[3];
-
-        console.log(id);
 
         if (id === undefined) {
 
@@ -311,6 +305,10 @@ $(document).ready(function () {
             targ1.empty();
 
             targ1.text("Please create an account or log in to continue.");
+
+        } else {
+
+            window.location.href = `/users/expense/${id}`;
 
         }
 
@@ -318,13 +316,9 @@ $(document).ready(function () {
 
     $("#account").on("click", function (event) {
 
-        console.log(event);
-
         let path = $(location).attr('pathname');
         let pathArr = path.split("/");
         let id = pathArr[3];
-
-        console.log(id);
 
         if (id === undefined) {
 
@@ -339,6 +333,10 @@ $(document).ready(function () {
             targ1.empty();
 
             targ1.text("Please create an account or log in to continue.");
+
+        } else {
+
+            window.location.href = `/users/config/${id}`;
 
         }
 
@@ -346,13 +344,9 @@ $(document).ready(function () {
 
     $("#overview").on("click", function (event) {
 
-        console.log(event);
-
         let path = $(location).attr('pathname');
         let pathArr = path.split("/");
         let id = pathArr[3];
-
-        console.log(id);
 
         if (id === undefined) {
 
@@ -367,6 +361,10 @@ $(document).ready(function () {
             targ1.empty();
 
             targ1.text("Please create an account or log in to continue.");
+
+        } else {
+
+            window.location.href = `/users/expenses/${id}`;
 
         }
 
