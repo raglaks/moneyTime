@@ -13,7 +13,7 @@ module.exports = function (app) {
 
     //DEV
     app.get("/users/accounts/:id", function (req, res) {
-
+        
         db.accounts.findAll({
 
             where: {
@@ -32,7 +32,7 @@ module.exports = function (app) {
 
     //GET ALL EXPENSES BY USER
     app.get("/users/expenses/:id", function (req, res) {
-
+        const op = db.Sequelize.Op;
         db.expenses.findAll({
 
             where: {
@@ -53,26 +53,41 @@ module.exports = function (app) {
 
             }
 
+            ///
             
+            //remember to use the table name and NOT the constructor name here
             db.expenses.findAll({
                 where: {
                     userid: req.params.id,
-                    deletedExpense: false
+                    deletedExpense: false,
+                    expDate: { [op.between]: ["2018-11-01", "2018-11-31"] }
+                    //expAmount: {[op.between]:[0,100]}
                 },
-                attributes: [['expType',"name"], [db.sequelize.fn('sum', db.sequelize.col('expAmount')), "y"]],
-                //group: ["expType"]
-                group: "expType"
+                attributes: [["finAccount", "Account"], [db.sequelize.fn('sum', db.sequelize.col('expAmount')), "y"]],
+                group: ["finAccount"]
+                //group: [db.sequelize.fn('month', db.sequelize.col('expDate'))]
             }).then((data) => {
-                console.log(JSON.stringify(data));
+                //res.json(data);
                 let cats = JSON.stringify(data);
-                parse.category = JSON.parse(cats);
-                console.log(parse);
+                parse.accounts = JSON.parse(cats);
                 parse.stringify = JSON.stringify(parse.category);
-                
-                //console.log(parse.stringify.replace(/"/g, ""));
+                db.accounts.findAll({
+                    where: {
+                        userid: req.params.id
+                    }
+                }).then(function (data) {
 
-                res.render("expenseAll", parse);
+                    //res.json(data);
+                    let accs = JSON.stringify(data);
+                    parse.userAccs = JSON.parse(accs);
+                    //console.log(parse);
+
+                    res.render("expenseAll", parse);
+
+                });
+                
             });
+            
             
             
 
@@ -83,7 +98,22 @@ module.exports = function (app) {
     //NEW EXPENSE
     app.get("/users/expense/:id", function (req, res) {
 
-        res.render("expense");
+        db.accounts.findAll({
+            where: {
+                userid: req.params.id
+            }
+        }).then(function (data) {
+
+            //res.json(data);
+            let accs = JSON.stringify(data);
+            let  parse = {};
+            parse.userAccs = JSON.parse(accs);
+            console.log(parse);
+
+            res.render("expense", parse);
+
+        });        
+        
 
     });
 

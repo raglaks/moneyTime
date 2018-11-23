@@ -16,6 +16,21 @@ module.exports = function (app) {
 
     });
 
+    app.get("/api/accounts/:id", function (req, res) {
+
+        //remember to use the table name and NOT the constructor name here
+        db.accounts.findAll({
+            where: {
+                userid: req.params.id
+            }
+        }).then(function (data) {
+
+            res.json(data);
+
+        });
+
+    });
+
     //POST to create new account--AHUEVO
     app.post("/api/accounts/:id", function (req, res) {
 

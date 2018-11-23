@@ -1,10 +1,22 @@
 body {
-    background-color: #F4F7FA;
+    background-color: #A6F4DC;
+    background-image: url("/images/back.png");
+    background-size: 100%;
+    font-family: 'Share Tech', sans-serif;
 }
 
 .navbar {
-    background-color: #E2F2FD;
+    
+    background-color: #832161;
+
 }
+
+/* .nav-link {
+
+    text-align: center;
+
+} */
+
 
 #accountConfig{
     background-color: white;
@@ -41,6 +53,26 @@ body {
 .graff1 {
     margin-top: 20px;
 }
+
+
+td {
+    text-transform: capitalize;
+}
+
+.accTot {
+    margin-top: 30px;
+    background-color: white;
+    border: 1px solid rgba(128, 128, 128, 0.644);
+    border-radius: 5px;
+}
+
+#home, #expense, #account, #overview {
+
+    cursor: pointer;
+
+}
+
+
 
 
 

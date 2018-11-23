@@ -12,7 +12,16 @@ $(document).ready(function () {
 
     //correct date is then assigned to the corresponding field
     $("#expDate").val(new Date().toDateInputValue());
+    function categ(){
+        let catArrr = ["food & drink","shopping","transport","home","bill & fees","entertainment","car","travel","family","healthcare","education","groceries","gift","work","hobbies","beauty","other","sports"];
+        catArrr.forEach(element => {
+            let elem = "<option value=" + element + ">" + element + "</option>"
+            $("#expType").append(elem);
+        });
+    };
 
+    categ();
+    
     $("#inputGroupSelect01").change(() => {
         //console.log($("#inputGroupSelect01").val());
         let accType = $("#inputGroupSelect01").val();
@@ -115,7 +124,11 @@ $(document).ready(function () {
         //if statement to check that both fields are not empty
         if (checkObj.oldEmail == "" || checkObj.oldPass == "") {
 
-            alert("Please fill out all fields.");
+            let targ = $("#signLog");
+
+            targ.empty();
+
+            targ.text("Please fill out all fields.");
 
         } else {
 
@@ -133,22 +146,30 @@ $(document).ready(function () {
                 data: checkObj
 
             }).then(function (data) {
-                
+
                 console.log(data);
 
                 if (data === "USER NOT FOUND") {
 
-                    alert("User not found. Please create an account.");
+                    let targ = $("#signLog");
+
+                    targ.empty();
+
+                    targ.text("User not found, please create an account.");
 
                 } else if (data === "WRONG PASSWORD") {
 
-                    alert("Please check your password.");
+                    let targ = $("#signLog");
+
+                    targ.empty();
+
+                    targ.text("Wrong password. Please retry.");
 
                 } else {
 
                     console.log(data);
 
-                    window.location.href = `/users/accounts/${data}`;
+                    window.location.href = `/users/expenses/${data}`;
 
                 }
 
@@ -174,7 +195,11 @@ $(document).ready(function () {
 
         if (checkObj.newName == "" || checkObj.newEmail == "" || checkObj.newPass == "") {
 
-            alert("Please fill out fill all fields.");
+            let targ = $("#signAlert");
+
+            targ.empty();
+
+            targ.text("Please fill out all fields.");
 
         } else {
 
@@ -194,11 +219,15 @@ $(document).ready(function () {
 
                 if (data === "USER ALREADY EXISTS. LOG IN INSTEAD.") {
 
-                    alert("User already exists. Log in instead.");
+                    let targ = $("#signAlert");
+
+                    targ.empty();
+
+                    targ.text("User already exists. Log in instead.");
 
                 } else {
 
-                    window.location.href = `/users/accounts/${data}`;
+                    window.location.href = `/users/expenses/${data}`;
 
                 }
 
@@ -225,7 +254,11 @@ $(document).ready(function () {
 
         if (expName == "" || expType == "" || expAmount == "") {
 
-            alert("Please fill out fill all fields.");
+            let targ = $("#expAlert");
+
+            targ.empty();
+
+            targ.text("Please fill out all fields.");
 
         } else {
 
@@ -246,14 +279,101 @@ $(document).ready(function () {
                 data: newExp
 
             }).then(function (result) {
+
                 console.log(result);
                 console.log("expense added.");
-                location.reload();
-                
- 
-                
+
+                $("#expName").val(" ");
+                $("#expType").val(" ");
+                $("#expAmount").val(" ");
+
+                $("#expAlert").text("Successfully added!");
 
             });
+
+        }
+
+    });
+
+    $("#expense").on("click", function (event) {
+
+        let path = $(location).attr('pathname');
+        let pathArr = path.split("/");
+        let id = pathArr[3];
+
+        if (id === undefined) {
+
+            let targ = $("#signAlert");
+
+            targ.empty();
+
+            targ.text("Please create an account or log in to continue.");
+
+            let targ1 = $("#signLog");
+
+            targ1.empty();
+
+            targ1.text("Please create an account or log in to continue.");
+
+        } else {
+
+            window.location.href = `/users/expense/${id}`;
+
+        }
+
+    });
+
+    $("#account").on("click", function (event) {
+
+        let path = $(location).attr('pathname');
+        let pathArr = path.split("/");
+        let id = pathArr[3];
+
+        if (id === undefined) {
+
+            let targ = $("#signAlert");
+
+            targ.empty();
+
+            targ.text("Please create an account or log in to continue.");
+
+            let targ1 = $("#signLog");
+
+            targ1.empty();
+
+            targ1.text("Please create an account or log in to continue.");
+
+        } else {
+
+            window.location.href = `/users/config/${id}`;
+
+        }
+
+    });
+
+    $("#overview").on("click", function (event) {
+
+        let path = $(location).attr('pathname');
+        let pathArr = path.split("/");
+        let id = pathArr[3];
+
+        if (id === undefined) {
+
+            let targ = $("#signAlert");
+
+            targ.empty();
+
+            targ.text("Please create an account or log in to continue.");
+
+            let targ1 = $("#signLog");
+
+            targ1.empty();
+
+            targ1.text("Please create an account or log in to continue.");
+
+        } else {
+
+            window.location.href = `/users/expenses/${id}`;
 
         }
 
