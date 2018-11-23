@@ -280,4 +280,96 @@ $(document).ready(function () {
 
     });
 
+    $("#home").on("click", function (event) {
+
+        console.log(event);
+
+        window.location.href = "/";
+
+    });
+
+    $("#expense").on("click", function (event) {
+
+        console.log(event);
+
+        let path = $(location).attr('pathname');
+        let pathArr = path.split("/");
+        let id = pathArr[3];
+
+        console.log(id);
+
+        if (id === undefined) {
+
+            let targ = $("#signAlert");
+
+            targ.empty();
+
+            targ.text("Please create an account or log in to continue.");
+
+            let targ1 = $("#signLog");
+
+            targ1.empty();
+
+            targ1.text("Please create an account or log in to continue.");
+
+        }
+
+    });
+
+    $("#account").on("click", function (event) {
+
+        console.log(event);
+
+        let path = $(location).attr('pathname');
+        let pathArr = path.split("/");
+        let id = pathArr[3];
+
+        console.log(id);
+
+        if (id === undefined) {
+
+            let targ = $("#signAlert");
+
+            targ.empty();
+
+            targ.text("Please create an account or log in to continue.");
+
+            let targ1 = $("#signLog");
+
+            targ1.empty();
+
+            targ1.text("Please create an account or log in to continue.");
+
+        }
+
+    });
+
+    $("#overview").on("click", function (event) {
+
+        console.log(event);
+
+        let path = $(location).attr('pathname');
+        let pathArr = path.split("/");
+        let id = pathArr[3];
+
+        console.log(id);
+
+        if (id === undefined) {
+
+            let targ = $("#signAlert");
+
+            targ.empty();
+
+            targ.text("Please create an account or log in to continue.");
+
+            let targ1 = $("#signLog");
+
+            targ1.empty();
+
+            targ1.text("Please create an account or log in to continue.");
+
+        }
+
+    });
+
 });
