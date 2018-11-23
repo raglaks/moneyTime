@@ -18,25 +18,35 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+    {{!-- favicon --}}
+    <link rel='shortcut icon' type='image/x-icon' href='/images/MtLogo.png' />
+
     {{!-- Graph Library --}}
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    
+
     {{!-- link internal style and js files --}}
     <link rel="stylesheet" href="/style/style.css" type="text/css" />
     <script src="/js/logic.js"></script>
+
+    {{!-- font --}}
+
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech" rel="stylesheet">
 
     {{!-- Config end --}}
     <title>MoneyTime</title>
 </head>
 
-<body class="bg-success">
+<body>
 
-    <nav class="navbar navbar-light" style="margin-bottom: 10px">
+    <nav class="navbar navbar-dark bg-dark">
 
-        <a class="navbar-brand">Money F*cking Time</a>
+        <a class="navbar-brand offset-lg-1">
 
+            <img src="/images/MtLogo2.png" width="40" height="40" class="d-inline-block align-top" alt="logo">
+            <span class="text-white" style="font-size: 2rem;">MoneyTime</span>
+        </a>
     </nav>
 
     <div class="container">
